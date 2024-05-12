@@ -1,14 +1,14 @@
-// "use client"
-// import Image from "next/image";
-// import Sidebar from "@/components/Sidebar";
+import Image from "next/image";
+import Sidebar from "@/components/Sidebar";
 
-export default function Home() {
-  console.log("[Home] Render")
+export default function Profile() {
   return (
-      <div className="flex h-full w-full"> 
+      // <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <div className="flex h-full w-full"> 
+
       {/* // min-h-screen flex-col items-center justify-between p-24"> */}
         {/* <div className="flex"> */}
-          HOME
+          PROFILE
           {/* <div className="flex-col"> */}
             
           {/* <Sidebar></Sidebar> */}
@@ -20,5 +20,6 @@ export default function Home() {
             </div> */}
           {/* </div> */}
     </div>
+    // </main>
   );
 }

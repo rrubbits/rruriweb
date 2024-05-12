@@ -3,6 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
+import Image from "next/image";
+// import Sidebar from "@/components/Sidebar";
+import ResponsiveLayout from "@/components/ResponsiveLayout";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +19,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className}`}>
+        {/* //flex flex-row justify-between`}> */}
+        {/* <div className="w-32 bg-gray-200">
+          test
+        </div> */}
+        <ResponsiveLayout>
+        {/* <aside className="h-full flex md:block fixed w-50">
+          <Sidebar />
+        </aside> */}
+          {children}
+        </ResponsiveLayout>
+        {/* <Sidebar></Sidebar> */}
+      </body>
     </html>
   );
 }
