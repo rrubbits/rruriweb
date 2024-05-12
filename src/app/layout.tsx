@@ -18,19 +18,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="jp">
       <body className={`${inter.className}`}>
-        {/* //flex flex-row justify-between`}> */}
-        {/* <div className="w-32 bg-gray-200">
-          test
-        </div> */}
         <ResponsiveLayout>
-        {/* <aside className="h-full flex md:block fixed w-50">
-          <Sidebar />
-        </aside> */}
           {children}
         </ResponsiveLayout>
-        {/* <Sidebar></Sidebar> */}
       </body>
     </html>
   );
