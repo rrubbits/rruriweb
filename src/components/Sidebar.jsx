@@ -32,7 +32,7 @@ const Sidebar = ({show, setter2}) => {
             </div>
             <SidebarButton title="HOME" href="/"/>
             <SidebarButton title="PROFILE" href="/profile"/>
-            <SidebarButton　title="ALBUM"/>
+            <SidebarButton title="ALBUM"/>
             <SidebarButton title="SCHEDULE"/>
             <SidebarButton title="GALLERY"/>
             <SidebarButton title="SHOP"/>     
