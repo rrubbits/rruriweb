@@ -4,12 +4,18 @@ import Sidebar from "@/components/Sidebar";
 export default function Profile() {
   return (
       // <main className="flex min-h-screen flex-col items-center justify-between p-24">
-    <div className="flex h-full w-full"> 
+    <div className="flex flex-col h-full w-full"> 
 
       {/* // min-h-screen flex-col items-center justify-between p-24"> */}
         {/* <div className="flex"> */}
           PROFILE
-          {/* <div className="flex-col"> */}
+          <div className="pt-10">
+          大島はるなプロデュースのアニソン･ゲーソンシンガー <br/>
+【親しき僕らに礼儀なし (@SHINBOKU_OA) メンバー】<br/>
+【#ボイステラス6 #GRABTHE6 ファイナリスト 】<br/>
+『オカルティックな喫茶店へようこそ！』主題歌担当 <br/>
+『WANNABE→CREATORS』 ED歌唱 #ミツキルリ出演 #ミツキルリスケジュール <br/>
+          </div>
             
           {/* <Sidebar></Sidebar> */}
             {/* <div className="grow shrink basis-0 self-stretch p-12 flex-col justify-center items-center gap-2.5 inline-flex">
