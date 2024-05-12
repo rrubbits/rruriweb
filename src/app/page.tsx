@@ -3,7 +3,7 @@ import Image from "next/image";
 // import Sidebar from "@/components/Sidebar";
 
 function Card() {
-  return <Image src="/card.jpg" alt="card" width="600" height="300" layout="responsive"/>
+  return <Image src="/card2.jpg" alt="card" width="600" height="300" layout="responsive"/>
   // fill" objectFit="cover"
 }
 export default function Home() {
@@ -16,8 +16,14 @@ export default function Home() {
           HOME
           </div>
           {/* <div className="flex-col"> */}
-          <div className="flow rounded-[5%] overflow-hidden bg-white">
+          <div className="relative flow rounded-[5%] overflow-hidden bg-white">
             <Card/>
+            <div className="absolute inset-0 flex justify-center"> {/* 오버레이 레이어 */}
+      
+                <p className="absolute text-white text-[4vw] font-bold top-[23%] left-[40%]">
+                  ミツキルリの<br/>オスミツキ！
+                </p> {/* 오버레이 텍스트 */}
+            </div>
           </div>
           {/* <Sidebar></Sidebar> */}
             {/* <div className="grow shrink basis-0 self-stretch p-12 flex-col justify-center items-center gap-2.5 inline-flex">
