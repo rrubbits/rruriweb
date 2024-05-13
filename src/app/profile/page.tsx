@@ -8,9 +8,11 @@ function Avatar() {
 export default function Profile() {
   return (
     <div className="flex flex-col h-full w-full"> 
-          PROFILE 
-          <div className="pl-4"><Avatar/></div>
-          <div className="pt-10">
+          <div className="font-semibold text-2xl pl-4">
+            PROFILE 
+          </div>
+          {/* <div className="pl-4"><Avatar/></div> */}
+          <div className="p-10 pt-10">
           大島はるなプロデュースのアニソン･ゲーソンシンガー <br/>
 【親しき僕らに礼儀なし (@SHINBOKU_OA) メンバー】<br/>
 【#ボイステラス6 #GRABTHE6 ファイナリスト 】<br/>

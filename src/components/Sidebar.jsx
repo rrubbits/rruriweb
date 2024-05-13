@@ -15,7 +15,6 @@ const Sidebar = ({show, setter2}) => {
     // Append class based on state of sidebar visiblity
     const appendClass = show ? " ml-0" : " ml-[-300px] md:ml-0";
     const ModalOverlay = () => {
-        // console.log("setter", setter2)
         return <div
             className={`flex md:hidden fixed top-0 right-0 bottom-0 left-0 bg-black/50 -z-40`}
             onClick={() => {
@@ -33,7 +32,7 @@ const Sidebar = ({show, setter2}) => {
             <SidebarButton title="HOME" href="/"/>
             <SidebarButton title="PROFILE" href="/profile"/>
             <SidebarButton title="ALBUM"/>
-            <SidebarButton title="SCHEDULE"/>
+            <SidebarButton title="SCHEDULE" href="/schedule"/>
             <SidebarButton title="GALLERY"/>
             <SidebarButton title="SHOP"/>     
         </div>

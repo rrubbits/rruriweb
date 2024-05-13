@@ -10,15 +10,17 @@ export default function Home() {
   console.log("[Home] Render")
   return (
       <div className="flex flex-col h-full w-full"> 
-          <div className="pb-10">
-          HOME
+          <div className="font-semibold text-2xl pl-4">
+            HOME
           </div>
-          <div className="relative flow rounded-[5%] overflow-hidden">
-            <Card/>
-            <div className="absolute inset-0 flex justify-center"> {/* 오버레이 레이어 */}
-                <p className="absolute text-white text-[4vw] font-bold top-[23%] left-[40%]">
-                  ミツキルリの<br/>オスミツキ！
-                </p>
+          <div className="p-10">
+            <div className="relative flow rounded-[5%] overflow-hidden"> {/* overlay layer */}
+              <Card/>
+              <div className="absolute inset-0 flex justify-center"> 
+                  <p className="absolute text-white text-[4vw] font-bold top-[23%] left-[40%]">
+                    ミツキルリの<br/>オスミツキ！
+                  </p>
+              </div>
             </div>
           </div>
     </div>

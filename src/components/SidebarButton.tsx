@@ -13,7 +13,7 @@ const SidebarButton: React.FC<SidebarButtonProps> = ({title, href}: SidebarButto
     const pathname = usePathname();
     // const colorClass = pathname === title ? "text-white" : "text-white/50 hover:text-white";
     const isSelected = pathname == href
-    const textColor =  "text-center flex-1 text-2xl " + (isSelected ? "text-zinc-600" : "text-zinc-400")
+    const textColor =  "text-center flex-1 text-2xl " + (href != undefined ? (isSelected ? "text-zinc-600" : "text-zinc-400") : "text-zinc-300")
     return (
         <div className="h-12 w-100 flex flex-row py-2 gap-1 hover:bg-gray-200 cursor-pointer">
             {isSelected ? <div className="w-1 bg-blue-400" /> : <div className="w-1" />}
@@ -26,7 +26,6 @@ const SidebarButton: React.FC<SidebarButtonProps> = ({title, href}: SidebarButto
                     {title}
                 </div>
             }
-            {/* </div>  */}
         </div>
     );
 };
