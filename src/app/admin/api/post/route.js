@@ -4,7 +4,13 @@ import { addPost } from '../../services/supabase'
 const datetimeFrom = (dateStr, timeStr) => {
   console.log('timestampFrom', dateStr, timeStr)
   const [year, month, day] = dateStr.split('.').map(Number);
-  const [hours, minutes] = timeStr?.split(':').map(Number) ?? [0, 0];
+  let [hours, minutes] = [0, 0]
+  try {
+    [hours, minutes] = timeStr?.split(':').map(Number)
+  }
+  catch (e) {
+    console.log("Error parsing timeStr", e, timeStr)
+  }
   const combinedDate = new Date(year, month - 1, day, hours, minutes);
   console.log('combinedDate2', dateStr, timeStr, combinedDate);
   return combinedDate.toISOString();
@@ -50,7 +56,7 @@ export async function POST(request) {
     if (!text) {
         return res.status(400).json({ error: 'Text is required' })
     }
-    let message = text + "からタイトルと日付、場所、開場時間、開演時間、チケットリンクを抽出してください。@ruri_rba1010以前はアカウント名です。形式は ```json 除外　{ date, location, title, openingTime, startingTime, ticketLinks: string[], account} dateはYYYY.MM.DD, timeはHH:mm形式, titleは「#おばらの七日間戦争」day,7 のように「」含めて何番目の日かも書いてあったら含めて"//, timestamp_begin} timestamp_beginはdateとopeningTimeを合わせて";
+    let message = text + "からタイトルと日付、場所、開場時間、開演時間、チケットリンクを抽出してください。@ruri_rba1010以前はアカウント名です。形式は ```json 除外　{ date, location, title, openingTime, startingTime, ticketLinks: string[], account} dateはYYYY.MM.DD(年度書いてなかったら今年), timeはHH:mm形式, titleは「#おばらの七日間戦争」day,7 のように「」含めて何番目の日かも書いてあったら含めて"//, timestamp_begin} timestamp_beginはdateとopeningTimeを合わせて";
     try {
         // 設定を諸々のせてAPIとやり取り
         const answer = parseOpenAIResponse(await ask(message))
