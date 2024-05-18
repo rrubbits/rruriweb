@@ -6,6 +6,8 @@ const inter = Inter({ subsets: ["latin"] });
 import Image from "next/image";
 // import Sidebar from "@/components/Sidebar";
 import ResponsiveLayout from "@/components/ResponsiveLayout";
+import SupabaseListener from './auth/components/supabase-listener'
+
 
 export const metadata: Metadata = {
   title: "Create Next App",

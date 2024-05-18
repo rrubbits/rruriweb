@@ -14,7 +14,7 @@ export default function Home() {
             HOME
           </div>
           <div className="p-10">
-            <div className="relative flow rounded-[5%] overflow-hidden"> {/* overlay layer */}
+            <div className="relative rounded-[2vw] overflow-hidden"> {/* overlay layer */}
               <Card/>
               <div className="absolute inset-0 flex justify-center"> 
                   <p className="absolute text-white text-[4vw] font-bold top-[23%] left-[40%]">

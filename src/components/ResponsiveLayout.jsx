@@ -19,7 +19,7 @@ export default function ResponsiveLayout({ children }) {
                         setShowSidebar(oldVal =>!oldVal);
                     }} />
                     <div className="flex flex-col flex-grow w-screen md:w-full min-h-screen items-center justify-center pt-[60px]">
-                        <main className="flex h-full w-full p-2">
+                        <main className="flex flex-col h-full w-full p-2">
                             {children}
                         </main>
                     </div>

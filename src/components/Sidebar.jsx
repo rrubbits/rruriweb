@@ -35,6 +35,7 @@ const Sidebar = ({show, setter2}) => {
             <SidebarButton title="SCHEDULE" href="/schedule"/>
             <SidebarButton title="GALLERY"/>
             <SidebarButton title="SHOP"/>     
+            <SidebarButton title="ADMIN"　href="/admin"/>     
         </div>
         {show ? <ModalOverlay setter2={setter2}/> : <></>}
     </div>
