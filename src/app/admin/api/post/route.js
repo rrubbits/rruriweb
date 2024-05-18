@@ -4,12 +4,9 @@ import { addPost } from '../../services/supabase'
 const datetimeFrom = (dateStr, timeStr) => {
   console.log('timestampFrom', dateStr, timeStr)
   const [year, month, day] = dateStr.split('.').map(Number);
-  const [hours, minutes] = timeStr.split(':').map(Number);
-
-  // JavaScript의 Date 객체는 월이 0부터 시작하므로, month에 -1을 해줍니다.
+  const [hours, minutes] = timeStr?.split(':').map(Number) ?? [0, 0];
   const combinedDate = new Date(year, month - 1, day, hours, minutes);
-  console.log('combinedDate', combinedDate);
-  // ISO 8601 형식의 문자열로 변환
+  console.log('combinedDate2', dateStr, timeStr, combinedDate);
   return combinedDate.toISOString();
 };
 
