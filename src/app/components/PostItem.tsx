@@ -27,10 +27,10 @@ const PostItem = ({ post, deletePost }: PostItemProps) => {
         return (
             <li className="flex flex-col p-2 items-stretch">
               <div className="flex flex-row bg-slate-300 items-center">
-                  <div className="text-2xl font-bold text-slate-700 px-2">{formatDate(post.timestamp_begin)}</div>
-                  <div className="text-md font-bold text-slate-700 pr-4">{timeStringFrom(post.timestamp_begin)}</div>
+                  <div className="text-xl font-bold text-slate-700 px-2">{formatDate(post.timestamp_begin)}</div>
+                  <div className="text-sm font-bold text-slate-700 pr-4">{timeStringFrom(post.timestamp_begin)}</div>
 
-                  <div className="text-2xl font-bold">{post.title}</div>
+                  <div className="text-xl font-bold">{post.title}</div>
                   <div className="flex-grow">
                   </div>
                   {/* {me &&

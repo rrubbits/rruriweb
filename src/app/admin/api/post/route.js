@@ -69,7 +69,8 @@ export async function POST(request) {
         let dto = { title: answer.title,
           content: text,
           timestamp_begin: datetimeFrom(answer.date, answer.openingTime ??  answer.startintTime),
-          ticket_url: answer.ticketLinks.length > 0 ? answer.ticketLinks[0] : null // JSON.stringify(answer.ticketLinks) : null 
+          ticket_url: answer.ticketLinks.length > 0 ? answer.ticketLinks[0] : null, // JSON.stringify(answer.ticketLinks) : null 
+          location: answer.location,
         }
         let post = await addPost(dto)
         console.log("[post]", post)

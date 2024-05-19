@@ -33,6 +33,7 @@ interface CreatePostDto {
   timestamp_begin: string
   timestamp_end: string
   ticket_url: string
+  location: string
 }
 
 export const addPost = async (dto: CreatePostDto): Promise<Posts | null> => {

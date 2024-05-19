@@ -6,11 +6,11 @@ import Sidebar from "@/components/Sidebar";
 //   return <Image src="/avatar.jpg" alt="[avatar.jpg]" width="100" height="100"/>
 // }
 
-export default function Schedule() {
+export default function Calendar() {
   return (
     <div className="relative flex flex-col h-full w-full"> 
         <div className="font-semibold text-2xl pl-4">
-          SCHEDULE 
+          CALENDAR 
         </div>
           {/* <div className="pl-4"><Avatar/></div> */}
         <div className="pt-10">

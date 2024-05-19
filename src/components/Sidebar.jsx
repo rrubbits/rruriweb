@@ -33,6 +33,7 @@ const Sidebar = ({show, setter2}) => {
             <SidebarButton title="PROFILE" href="/profile"/>
             <SidebarButton title="ALBUM"/>
             <SidebarButton title="SCHEDULE" href="/schedule"/>
+            <SidebarButton title="CALENDAR" href="/calendar"/>
             <SidebarButton title="GALLERY"/>
             <SidebarButton title="SHOP"/>     
             <SidebarButton title="ADMIN"　href="/admin"/>     

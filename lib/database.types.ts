@@ -9,12 +9,28 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      locations: {
+        Row: {
+          created_at: string
+          id: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+        }
+        Relationships: []
+      }
       posts: {
         Row: {
           content: string
           created_at: string
           deleted_at: string | null
           id: number
+          location: string | null
           profile_id: string | null
           ticket_url: string | null
           timestamp_begin: string | null
@@ -28,6 +44,7 @@ export type Database = {
           created_at?: string
           deleted_at?: string | null
           id?: number
+          location?: string | null
           profile_id?: string | null
           ticket_url?: string | null
           timestamp_begin?: string | null
@@ -41,6 +58,7 @@ export type Database = {
           created_at?: string
           deleted_at?: string | null
           id?: number
+          location?: string | null
           profile_id?: string | null
           ticket_url?: string | null
           timestamp_begin?: string | null
