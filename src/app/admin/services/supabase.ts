@@ -4,9 +4,9 @@ import type { Database } from '@/../lib/database.types'
 type Posts = Database['public']['Tables']['posts']['Row']
 type ProfileType = Database['public']['Tables']['profiles']['Row']
 
-const supabase = createServerComponentClient<Database>({ cookies })
 export const getUser = async () => {
-    const { data, error } = await supabase.auth.getUser();
+  const supabase = createServerComponentClient<Database>({ cookies })
+  const { data, error } = await supabase.auth.getUser();
     if (error) {
       console.error('Error fetching user:', error);
       return null;
@@ -15,10 +15,11 @@ export const getUser = async () => {
   };
 
 export const getPosts = async (): Promise<Posts[]> => {
-    const { data, error } = await supabase
-    .from('posts')
-    .select()//, profiles!inner(name)')
-    // .is('deleted_at', null);
+  const supabase = createServerComponentClient<Database>({ cookies })
+  const { data, error } = await supabase
+  .from('posts')
+  .select()//, profiles!inner(name)')
+  // .is('deleted_at', null);
 
   if (error) {
     console.error('Error fetching posts:', error);
@@ -38,6 +39,7 @@ interface CreatePostDto {
 
 export const addPost = async (dto: CreatePostDto): Promise<Posts | null> => {
     // console.
+    const supabase = createServerComponentClient<Database>({ cookies })
     let user = await getUser()
     let userId = user?.id
     let {data: profile} = await supabase.from('profiles')
@@ -59,6 +61,7 @@ export const addPost = async (dto: CreatePostDto): Promise<Posts | null> => {
 };
 
 export const deletePost = async (postId: string): Promise<boolean> => {
+    const supabase = createServerComponentClient<Database>({ cookies })
     const { error } = await supabase
       .from('posts')
       .delete()
@@ -81,6 +84,8 @@ export const deletePost = async (postId: string): Promise<boolean> => {
     }
   export const editPost = async (postId: string, updatePostDto: UpdatePostDto): Promise<Posts | null> => {
     // const { title, content, dateStr, openingTime, startingTime } = updatePostDto;
+    const supabase = createServerComponentClient<Database>({ cookies })
+
     let user = await getUser()
     let userId = user?.id
     const { data: post, error: fetchError } = await supabase
@@ -115,6 +120,7 @@ export const deletePost = async (postId: string): Promise<boolean> => {
   };
   export const trashPost = async (postId: string): Promise<Posts | null> => {
     // const { title, content, dateStr, openingTime, startingTime } = updatePostDto;
+    const supabase = createServerComponentClient<Database>({ cookies })
     let user = await getUser()
     let userId = user?.id
     const { data: post, error: fetchError } = await supabase
