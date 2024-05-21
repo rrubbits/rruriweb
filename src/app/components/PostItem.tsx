@@ -26,22 +26,16 @@ const PostItem = ({ post, deletePost }: PostItemProps) => {
     // if(me) {
         return (
             <li className="flex flex-col p-2 items-stretch">
-              <div className="flex flex-row bg-slate-300 items-center">
-                  <div className="text-xl font-bold text-slate-700 px-2">{formatDate(post.timestamp_begin)}</div>
-                  <div className="text-sm font-bold text-slate-700 pr-4">{timeStringFrom(post.timestamp_begin)}</div>
-
-                  <div className="text-xl font-bold">{post.title}</div>
-                  <div className="flex-grow">
-                  </div>
-                  {/* {me &&
-                    (<button className="mx-6 text-red-500" onClick={()=>{deletePost(post.id)}}>
-                      Delete
-                    </button>) 
-
-                  } */}
-                  <div className="ml-auto text-blue-500">
+              <div className="flex flex-col bg-slate-300 items-stretch">
+                <div className="flex flex-row items-center">
+                    <span className="text-md font-bold text-slate-700 px-1">{formatDate(post.timestamp_begin)}</span>
+                    <span className="text-sm font-bold text-slate-700 pr-4">{timeStringFrom(post.timestamp_begin)}</span>
+                    {/* <span className="flex-grow"></span> */}
+                    <span className="ml-auto text-sm text-blue-500">
                     [{post.username} {me}]
-                  </div>
+                    </span>
+                </div>
+                  <div className="text-lg font-bold w-auto px-7">{post.title}</div>
                   {/* {post.username} */}
               {/* </div> */}
               </div>

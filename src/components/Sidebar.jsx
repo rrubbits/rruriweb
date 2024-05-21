@@ -1,15 +1,20 @@
-import React, { useEffect } from 'react';
+'use client'
+import React, { useEffect, useState } from 'react';
 import SidebarButton from './SidebarButton';
+import NavigationBarMobile from './NavigationBarMobile';
 import { usePathname } from 'next/navigation';
-
 let sidebarWidth = 350;
 
-const Sidebar = ({show, setter2}) => {
-    // Define our base class
+const Sidebar = ({title}) => {
+    // const [showSidebar, setShowSidebar] = useState(false);
+    const [show, setShow] = useState(false);
     const pathname = usePathname();
     useEffect(() => {
-        setter2(false);
+        setShow(false);
     }, [pathname])
+    // headers 
+    // let headers = headers()
+    // let pathname = headers.get("x-pathname")
 
     const className = "bg-white w-[300px] transition-[margin-left] ease-in-out duration-500 fixed md:static top-0 bottom-0 left-0 z-40";
     // Append class based on state of sidebar visiblity
@@ -18,13 +23,15 @@ const Sidebar = ({show, setter2}) => {
         return <div
             className={`flex md:hidden fixed top-0 right-0 bottom-0 left-0 bg-black/50 -z-40`}
             onClick={() => {
-                setter2(oldVal => !oldVal);
+                setShow(oldVal => !oldVal);
             }}
         />
     }
 
     return (
     <div className={`${className}${appendClass}`}>
+        <NavigationBarMobile setter={setShow} title={title}/>
+
         <div className="flex h-full flex-col z-40 bg-white">
             <div className="w-full text-center text-black text-3xl font-extrabold font-['Inter'] p-8">
                 ミツキルリの<br/>オスミツキ
@@ -38,7 +45,7 @@ const Sidebar = ({show, setter2}) => {
             <SidebarButton title="SHOP"/>     
             <SidebarButton title="ADMIN"　href="/admin"/>     
         </div>
-        {show ? <ModalOverlay setter2={setter2}/> : <></>}
+        {show ? <ModalOverlay setter2={setShow}/> : <></>}
     </div>
     );
 };

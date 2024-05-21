@@ -1,12 +1,11 @@
-"use client";
-import React, { useState } from 'react'
+// "use client";
+import React from 'react'
 import Head from 'next/head'
 import Sidebar from './Sidebar';
-import NavigationBarMobile from './NavigationBarMobile';
 
 export default function ResponsiveLayout({ children }) {
     let title = "ミツキルリ";
-    const [showSidebar, setShowSidebar] = useState(false);
+    // const [showSidebar, setShowSidebar] = useState(false);
     return (
         <>
             <Head>
@@ -14,10 +13,10 @@ export default function ResponsiveLayout({ children }) {
             </Head>
             <div className="min-h-screen">
                 <div className="flex">
-                    <NavigationBarMobile setter={setShowSidebar} title={title}/>
-                    <Sidebar show={showSidebar} setter2={() => {
+                    <Sidebar title={title}/>
+                     {/* show={showSidebar} setter2={() => {
                         setShowSidebar(oldVal =>!oldVal);
-                    }} />
+                    }} /> */}
                     <div className="flex flex-col flex-grow w-screen md:w-full min-h-screen items-center justify-center pt-[60px]">
                         <main className="flex flex-col h-full w-full p-2">
                             {children}
