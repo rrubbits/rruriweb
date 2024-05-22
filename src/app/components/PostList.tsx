@@ -10,32 +10,12 @@ type Posts = Database['public']['Tables']['posts']['Row']
 
 const PostList = () => {
   const [posts, setPosts] = useState<Posts[]>([]);
-  useEffect(() => {
-    async function fetchPosts() {
-      const res = await fetch('/api/posts');
-      const data = await res.json();
-      setPosts(data);
-    }
-    fetchPosts();
-  }, []);
-
-  // const [posts, setPosts] = useState<Posts[]>([])
-  // useEffect(() => {
-  //   const getPosts = async () => {
-  //     const res = await fetch('/api/posts')
-  //     if (!res.ok) {
-  //       throw new Error('Failed to fetch data')
-  //     }
-  //     const posts = await res.json() as Posts[]
-  //     setPosts(posts)
-  //   }
-  //   getPosts()
-  // }, [])
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [groupedPosts, setGroupedPosts] = useState<{ [key: string]: Posts[] }>({})
   const [showPast, setShowPast] = useState<boolean>(false)
 
   useEffect(() => {
-    const groupPostsByDate = () => {
+    const groupPostsByDate = (posts: Posts[]) => {
       const groups: { [key: string]: Posts[] } = { 'Past': [], 'Today': [], 'Future': []}
       const currentDate = new Date()
 
@@ -57,8 +37,31 @@ const PostList = () => {
       })
       setGroupedPosts(groups)
     }
-    groupPostsByDate()
-  }, [posts])
+    async function fetchPosts() {
+      const res = await fetch('/api/posts');
+      const data = await res.json();
+      setPosts(data);
+      groupPostsByDate(data)
+      setIsLoading(false);
+    }
+    setIsLoading(true)
+    fetchPosts();
+  }, []);
+
+  // const [posts, setPosts] = useState<Posts[]>([])
+  // useEffect(() => {
+  //   const getPosts = async () => {
+  //     const res = await fetch('/api/posts')
+  //     if (!res.ok) {
+  //       throw new Error('Failed to fetch data')
+  //     }
+  //     const posts = await res.json() as Posts[]
+  //     setPosts(posts)
+  //   }
+  //   getPosts()
+  // }, [])
+  // useEffect(() => {
+  // }, [posts])
     return (
       <div className="w-full">
         {/* <h1 className="mb-12">Posts {posts?.length} </h1> */}
@@ -66,16 +69,19 @@ const PostList = () => {
           {Object.keys(groupedPosts).length > 2 &&
             <div className="overflow-hidden">
               <div key={"Past"} className="bg-slate-200 rounded-md my-2 opacity-50">
-                <h2 className="mb-4 font-bold text-xl text-blue-600 p-2">
-                  <button className="flex items-center" onClick={() => setShowPast(!showPast)}>
-                    <span className="pr-4">
-                      {" 過去のイベント"}
-                    </span>
-                    <span className="w-5">
-                      {showPast ? <ChevronDownIcon/> : <ChevronRightIcon/>}
-                    </span>
-                  </button>
-                </h2>
+                <button className="flex items-center w-full mb-4" onClick={() => setShowPast(!showPast)}>
+                  <h2 className="font-bold text-xl text-blue-600 p-2 flex items-center w-full">
+                      <span className="pr-4">
+                        {`過去のイベント `}
+                      </span>
+                      <span className="w-5">
+                        {showPast ? <ChevronDownIcon/> : <ChevronRightIcon/>}
+                      </span>
+                      <span className="ml-auto text-sm">
+                      {!isLoading && `${groupedPosts['Past'].length}件`}
+                      </span>
+                  </h2>
+                </button>
                 {showPast &&
                   <ul className="">
                     {groupedPosts['Past'].map((post) => (
@@ -85,12 +91,16 @@ const PostList = () => {
                 }
               </div>
               <div key={"Today"} className="bg-slate-200 rounded-md my-2">
-                <h2 className="mb-4 font-bold text-xl p-2">
+                <h2 className="mb-4 font-bold text-xl p-2 flex">
                   {/* <button onClick={() => setShowPast(!showPast)}> */}
                   {/* <span style={{ fontSize: '0.5m', marginRight: '0.5em' }}>{showPast ? "▼" : "▶"}</span> */}
                     {/* {showPast ? "▼" : "▶"} */}
-                    {" 今日のイベント"}
-                  {/* </button> */}
+                    <span>
+                      {`今日のイベント `}
+                    </span>
+                    <span className="ml-auto text-sm">
+                      {!isLoading && `${groupedPosts['Today'].length}件`}
+                    </span>
                 </h2>
                 {/* {showPast && */}
                 <ul>
@@ -101,11 +111,16 @@ const PostList = () => {
                 {/* } */}
               </div>
               <div key={"Future"} className="bg-slate-200 rounded-md my-2">
-                <h2 className="mb-4 font-bold text-xl p-2">
+                <h2 className="mb-4 font-bold text-xl p-2 flex items-center">
                   {/* <button onClick={() => setShowPast(!showPast)}> */}
                   {/* <span style={{ fontSize: '0.5m', marginRight: '0.5em' }}>{showPast ? "▼" : "▶"}</span> */}
                     {/* {showPast ? "▼" : "▶"} */}
-                    {" これからのイベント"}
+                    <span>
+                      {`これからのイベント `}
+                    </span>
+                    <span className="ml-auto text-sm">
+                      {!isLoading && `${groupedPosts['Future'].length}件`}
+                    </span>
                   {/* </button> */}
                 </h2>
                 {/* {showPast && */}

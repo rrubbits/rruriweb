@@ -42,3 +42,12 @@ git push heroku main
 
 
 npx supabase gen types typescript --project-id fkqlrkbkiejnfrnbpcds > ./lib/database.types.ts
+
+
+# TODO
+
+1. [Schedule] Post編集、削除
+2. [Schedule] Calendar
+3. [Schedule] 予約状態　Reservation(Post.reservations, Profile.reservations)
+4. [Home] QRコードのリンク追加
+
