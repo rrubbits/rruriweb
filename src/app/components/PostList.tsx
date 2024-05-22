@@ -1,6 +1,6 @@
 "use client"
 import dayjs from "dayjs";
-
+import {ChevronDownIcon, ChevronRightIcon} from '@heroicons/react/24/solid'
 import { deletePost } from './postActions'
 import type { Database } from '@/../lib/database.types'
 import PostItem from '../components/PostItem'
@@ -67,10 +67,13 @@ const PostList = () => {
             <div className="overflow-hidden">
               <div key={"Past"} className="bg-slate-200 rounded-md my-2 opacity-50">
                 <h2 className="mb-4 font-bold text-xl text-blue-600 p-2">
-                  <button onClick={() => setShowPast(!showPast)}>
-                  <span style={{ fontSize: '0.5m', marginRight: '0.5em' }}>{showPast ? "▼" : "▶"}</span>
-                    {/* {showPast ? "▼" : "▶"} */}
-                    {" 過去のイベント"}
+                  <button className="flex items-center" onClick={() => setShowPast(!showPast)}>
+                    <span className="pr-4">
+                      {" 過去のイベント"}
+                    </span>
+                    <span className="w-5">
+                      {showPast ? <ChevronDownIcon/> : <ChevronRightIcon/>}
+                    </span>
                   </button>
                 </h2>
                 {showPast &&

@@ -3,13 +3,13 @@ import type { Database } from '@/../lib/database.types'
 import { getUser, trashPost } from '../admin/services/supabase'
 
 function formatDate(dateString: string): string {
-    const date = new Date(dateString+"Z");
+    const date = new Date(dateString);
     console.log("[formatDate] - ", dateString, date)
     const options: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric',   weekday: 'short', timeZone: "Asia/Tokyo"};
     return date.toLocaleDateString("ja-JP", options);
 }
 function timeStringFrom(dateString: string): string {
-    const date = new Date(dateString+"Z");
+    const date = new Date(dateString);
     const options: Intl.DateTimeFormatOptions = { hour: 'numeric', minute: 'numeric', hour12: false, timeZone: "Asia/Tokyo"};
     return date.toLocaleTimeString("ja-JP", options);
 }

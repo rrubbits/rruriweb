@@ -4,7 +4,7 @@ import Head from 'next/head'
 import Sidebar from './Sidebar';
 
 export default function ResponsiveLayout({ children }) {
-    let title = "ミツキルリ";
+    let title = "ミツキルリのオスミツキ";
     // const [showSidebar, setShowSidebar] = useState(false);
     return (
         <>

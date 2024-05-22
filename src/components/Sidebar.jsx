@@ -21,7 +21,7 @@ const Sidebar = ({title}) => {
     const appendClass = show ? " ml-0" : " ml-[-300px] md:ml-0";
     const ModalOverlay = () => {
         return <div
-            className={`flex md:hidden fixed top-0 right-0 bottom-0 left-0 bg-black/50 -z-40`}
+            className={`flex md:hidden fixed top-0 right-0 bottom-0 left-0 bg-black/50 -z-10`}
             onClick={() => {
                 setShow(oldVal => !oldVal);
             }}
@@ -30,8 +30,6 @@ const Sidebar = ({title}) => {
 
     return (
     <div className={`${className}${appendClass}`}>
-        <NavigationBarMobile setter={setShow} title={title}/>
-
         <div className="flex h-full flex-col z-40 bg-white">
             <div className="w-full text-center text-black text-3xl font-extrabold font-['Inter'] p-8">
                 ミツキルリの<br/>オスミツキ
@@ -46,6 +44,7 @@ const Sidebar = ({title}) => {
             <SidebarButton title="ADMIN"　href="/admin"/>     
         </div>
         {show ? <ModalOverlay setter2={setShow}/> : <></>}
+        <NavigationBarMobile setter={setShow} title={title}/>
     </div>
     );
 };
