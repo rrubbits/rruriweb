@@ -41,11 +41,18 @@ const Navigation = ({
     </Link> */}
     <div className="text-sm font-bold">
        {session ? (
-            <div className="flex items-center space-x-5">
+            <div className="flex items-center space-x-5 px-8">
               <Link href="/settings/profile">
-                <div className='text-white'>PROFILE2</div>
-                { user && user.email}
-                { profile && <div>{profile.email} - {profile.name}</div> }
+                <div className='text-white'>PROFILE</div>
+                {/* { user && user.email} */}
+                { profile && <div>
+                    <div className='text-gray-400'>
+                      {profile.email}
+                    </div>
+                    <div className='text-gray-400'>
+                      {profile.name}
+                    </div>
+                  </div> }
               </Link>
             </div>
           ) : (

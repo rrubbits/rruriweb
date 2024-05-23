@@ -3,7 +3,8 @@ import OpenAI from 'openai'
 import { addPost } from '../../services/supabase'
 const datetimeFrom = (dateStr, timeStr) => {
   console.log('timestampFrom', dateStr, timeStr)
-  const [year, month, day] = dateStr.split('.').map(Number);
+  // dateStr.replace('0000', '2024')
+  const [year, month, day] = dateStr.replace('0000', '2024').split('.').map(Number);
   let [hours, minutes] = [0, 0]
   try {
     [hours, minutes] = timeStr?.split(':').map(Number)
@@ -56,7 +57,8 @@ export async function POST(request) {
     if (!text) {
         return res.status(400).json({ error: 'Text is required' })
     }
-    let message = text + "からタイトルと日付、場所、開場時間、開演時間、チケットリンクを抽出してください。@ruri_rba1010以前はアカウント名です。形式は ```json 除外　{ date, location, title, openingTime, startingTime, ticketLinks: string[], account} dateはYYYY.MM.DD(年度書いてなかったら今年), timeはHH:mm形式, titleは「#おばらの七日間戦争」day,7 のように「」含めて何番目の日かも書いてあったら含めて"//, timestamp_begin} timestamp_beginはdateとopeningTimeを合わせて";
+    let message = text + "からタイトルと日付、場所、開場時間、開演時間、チケットリンクを抽出してください。@ruri_rba1010以前はアカウント名です。形式は ```json 除外　{ date, location, title, openingTime, startingTime, ticketLinks: string[], account} dateはYYYY.MM.DD(YYYYは分からなかったら0000), timeはHH:mm形式, titleは「#おばらの七日間戦争」day,7 のように「」含めて何番目の日かも書いてあったら含めて年度わからない時には0000年にして"
+    //, timestamp_begin} timestamp_beginはdateとopeningTimeを合わせて";
     try {
         // 設定を諸々のせてAPIとやり取り
         const answer = parseOpenAIResponse(await ask(message))
@@ -69,13 +71,15 @@ export async function POST(request) {
         let dto = { title: answer.title,
           content: text,
           timestamp_begin: datetimeFrom(answer.date, answer.openingTime ??  answer.startintTime),
-          ticket_url: answer.ticketLinks.length > 0 ? answer.ticketLinks[0] : null, // JSON.stringify(answer.ticketLinks) : null 
+          ticketLinks: answer.ticketLinks,
+          // ticket_url: answer.ticketLinks ?? [], // JSON.stringify(answer.ticketLinks) : null 
           location: answer.location,
         }
-        let post = await addPost(dto)
-        console.log("[post]", post)
+        // let post = await addPost(dto)
+        // console.log("[post]", post)
 
-        return Response.json({...answer, content: text})// response//new Response(str); //{ date, location, title, openingTime, startingTime, ticketLinks }))
+        return Response.json({...dto, content: text})// response//new Response(str); //{ date, location, title, openingTime, startingTime, ticketLinks }))
+        // return Response.json({...answer, content: text})// response//new Response(str); //{ date, location, title, openingTime, startingTime, ticketLinks }))
         // res.status(200).json({ result: answer })
     } catch (error) {
         // Consider adjusting the error handling logic for your use case

@@ -1,11 +1,12 @@
 "use client"
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 import {ChevronDownIcon, ChevronRightIcon} from '@heroicons/react/24/solid'
 import { deletePost } from './postActions'
 import type { Database } from '@/../lib/database.types'
 import PostItem from '../components/PostItem'
 // import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useEffect, useState } from 'react'
+import { getTenseOfDate } from '@/utils/date'
 type Posts = Database['public']['Tables']['posts']['Row']
 
 const PostList = () => {
@@ -21,15 +22,7 @@ const PostList = () => {
 
       posts.forEach(post => {
         const postDate = new Date(post.timestamp_begin!) // timestamp_begin을 사용하여 포스트 날짜 가져오기
-        let groupKey = ''
-        if (dayjs(postDate).isSame(currentDate, 'day')
-        ) {
-          groupKey = 'Today'
-        } else if (dayjs(postDate).isBefore(currentDate, 'day')) {
-          groupKey = 'Past'
-        } else {
-          groupKey = 'Future'
-        }
+        let groupKey = getTenseOfDate(postDate, currentDate, 'day')
         if (!groups[groupKey]) {
           groups[groupKey] = []
         }

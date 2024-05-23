@@ -1,18 +1,7 @@
 "use client"
 import type { Database } from '@/../lib/database.types'
 import { getUser, trashPost } from '../admin/services/supabase'
-
-function formatDate(dateString: string): string {
-    const date = new Date(dateString);
-    console.log("[formatDate] - ", dateString, date)
-    const options: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric',   weekday: 'short', timeZone: "Asia/Tokyo"};
-    return date.toLocaleDateString("ja-JP", options);
-}
-function timeStringFrom(dateString: string): string {
-    const date = new Date(dateString);
-    const options: Intl.DateTimeFormatOptions = { hour: 'numeric', minute: 'numeric', hour12: false, timeZone: "Asia/Tokyo"};
-    return date.toLocaleTimeString("ja-JP", options);
-}
+import { dateStringFrom, timeStringFrom } from '@/utils/date'
 
 type Posts = Database['public']['Tables']['posts']['Row']
 interface PostItemProps { 
@@ -28,7 +17,7 @@ const PostItem = ({ post, deletePost }: PostItemProps) => {
             <li className="flex flex-col p-2 items-stretch">
               <div className="flex flex-col bg-slate-300 items-stretch">
                 <div className="flex flex-row items-center">
-                    <span className="text-md font-bold text-slate-700 px-1">{formatDate(post.timestamp_begin)}</span>
+                    <span className="text-md font-bold text-slate-700 px-1">{dateStringFrom(post.timestamp_begin)}</span>
                     <span className="text-sm font-bold text-slate-700 pr-4">{timeStringFrom(post.timestamp_begin)}</span>
                     {/* <span className="flex-grow"></span> */}
                     <span className="ml-auto text-sm text-blue-500">

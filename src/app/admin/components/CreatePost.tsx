@@ -2,34 +2,64 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react';
 import Loading from '@/app/loading';
+import { dateStringFrom, timeStringFrom } from '@/utils/date';
+import { CreatePostDto, addPost } from '../services/supabase';
+import { revalidatePath } from 'next/cache';
+
 export default function CreatePost() {
     const [text, setText] = useState('');
-    const [result, setResult] = useState(null);
+    const [result, setResult] = useState<CreatePostDto|null>(null);
     const [loading, setLoading] = useState(false)
 
     const router = useRouter()
+    const parseText = async (event: any) => {
+      setLoading(true)
+      event.preventDefault();
+      try {
+        const response = await fetch('/admin/api/post', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ text }),
+          });
+          const data = await response.json();
+          console.log("[response], data");
+          setResult({
+            title: data.title,
+            content: data.content,
+            timestamp_begin: data.timestamp_begin,
+            timestamp_end: data.timestmap_end,
+            ticket_url: data.ticketLinks?.length > 0 ? data.ticketLinks[0] : undefined, //JSON.stringify(data.ticketLinks) : undefined,
+            location: data.location,
+          })
+
+            // data);
+          // router.refresh()    
+      }
+      catch(e) {
+        console.log(e)
+      }
+      finally {
+        setLoading(false)
+      }
+    }
     const handleSubmit = async (event: any) => {
         setLoading(true)
         event.preventDefault();
         // console.log("[text]", text)
         try {
-          const response = await fetch('/admin/api/post', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ text }),
-            });
-            const data = await response.json();
-            setResult(data);
-            router.refresh()    
+          console.log("[handleSubmit]", result)
+          addPost(result!)
+          router.refresh()
         }
         catch(e) {
           console.log(e)
+        }
+        finally {
           setLoading(false)
         }
-    };
-    console.log("[result]", result)
+      };
 
   return (
     <div>
@@ -43,28 +73,33 @@ export default function CreatePost() {
           //   cols="50"
             placeholder="Enter the text to parse"
           ></textarea>
-          {/* {result && (
+          {result && (
             <div className="flex-1 m-1">
-              <h2>Result</h2>
+              {/* <h2>Result</h2> */}
               <p><strong>Title:</strong> {result.title}</p>
-              <p><strong>Date:</strong> {result.date}</p>
+              <p><strong>Date:</strong> {dateStringFrom(result.timestamp_begin)} {timeStringFrom(result.timestamp_begin)}</p>
               <p><strong>Location:</strong> {result.location}</p>
-              
-              <p><strong>Opening Time:</strong> {result.openingTime}</p>
-              <p><strong>Starting Time:</strong> {result.startingTime}</p>
+            
+              {/* <p><strong>Opening Time:</strong> {result.openingTime}</p> */}
+              {/* <p><strong>Starting Time:</strong> {result.startingTime}</p> */}
               <p><strong>Ticket Links:</strong></p>
               <ul>
-                {result.ticketLinks.map((link, index) => (
+                {result.ticket_url}
+                {/* ticketLinks.map((link, index) => (
                   <li key={index}><a href={link} target="_blank" rel="noopener noreferrer">{link}</a></li>
-                ))}
+                ))} */}
               </ul>
             </div>
-          )} */}
+          )}
         </div>
         {loading ? (
             <Loading />
-          ) : (
-        <button className="p-4 bg-slate-200 hover:bg-slate-400 rounded-md m-4" type="submit">Submit</button>)}
+          ) : 
+        (!result ? <button className="p-4" onClick={(e) => parseText(e)}>Parse Text</button> :
+          <button className="p-4 bg-slate-200 hover:bg-slate-400 rounded-md m-4" type="submit">Submit</button>
+        )
+        }
+          
 
         {/* {result ? <button className="p-4 bg-slate-200 rounded-md m-4" type="submit">Parse Text</button>  */}
          {/* : <button className="p-4 bg-slate-200 rounded-md m-4" type="submit">Parse Text</button>} */}

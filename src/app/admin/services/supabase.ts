@@ -1,3 +1,4 @@
+'use server'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import type { Database } from '@/../lib/database.types'
@@ -27,18 +28,19 @@ export const getPosts = async (): Promise<Posts[]> => {
   }
   return data as Posts[]
 }
-interface CreatePostDto {
+export interface CreatePostDto {
 //   createdAt: string
   title: string
   content: string
   timestamp_begin: string
-  timestamp_end: string
-  ticket_url: string
-  location: string
+  timestamp_end: string | undefined
+  ticket_url: string | undefined
+  location: string | undefined
 }
 
 export const addPost = async (dto: CreatePostDto): Promise<Posts | null> => {
     // console.
+    console.log('[addPost]', dto);
     const supabase = createServerComponentClient<Database>({ cookies })
     let user = await getUser()
     let userId = user?.id
