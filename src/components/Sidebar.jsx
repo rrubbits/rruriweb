@@ -16,7 +16,7 @@ const Sidebar = ({title}) => {
     // let headers = headers()
     // let pathname = headers.get("x-pathname")
 
-    const className = "bg-white w-[300px] transition-[margin-left] ease-in-out duration-500 fixed md:static top-0 bottom-0 left-0 z-40";
+    const className = "bg-white w-[250px] border-r-2 transition-[margin-left] ease-in-out duration-500 fixed top-0 bottom-0 left-0 z-40";
     // Append class based on state of sidebar visiblity
     const appendClass = show ? " ml-0" : " ml-[-300px] md:ml-0";
     const ModalOverlay = () => {

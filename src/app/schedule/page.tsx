@@ -21,7 +21,7 @@ type Posts = Database['public']['Tables']['posts']['Row']
 
 const Schedule = async () => {
   return (
-    <div className="w-full">
+    <div className="flex flex-col w-full items-center">
       <PostList/>
     </div>
   )

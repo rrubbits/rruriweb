@@ -15,7 +15,7 @@ export default async function Home() {
       } = await supabase.auth.getSession()
       const { data: user, error } = await supabase.auth.getUser();
       return (
-    <div>
+    <div className="items-center">
         { session && <CreatePost /> }
         <PostList/>
     </div>

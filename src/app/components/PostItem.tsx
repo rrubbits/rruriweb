@@ -33,9 +33,10 @@ const PostItem = ({ post, deletePost }: PostItemProps) => {
                       {post.ticket_url}
                   </a>
               </div>
-              <div className="box-border p-4 pl-10">
-                  <div className="prose" dangerouslySetInnerHTML={{ __html: post.content }}></div>
-              </div>
+              <p className="box-border pl-10 mt-2 line-clamp-1">
+                {post.content}
+                  {/* <div className="prose" dangerouslySetInnerHTML={{ __html: post.content }}></div> */}
+              </p>
             </li>
           )
     // }

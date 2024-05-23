@@ -56,7 +56,7 @@ const PostList = () => {
   // useEffect(() => {
   // }, [posts])
     return (
-      <div className="w-full">
+      <div className="w-full max-w-4xl">
         {/* <h1 className="mb-12">Posts {posts?.length} </h1> */}
           {/* {Object.keys(groupedPosts).map((date) => ( */}
           {Object.keys(groupedPosts).length > 2 &&
