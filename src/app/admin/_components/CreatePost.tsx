@@ -3,10 +3,13 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react';
 import Loading from '@/app/loading';
 import { dateStringFrom, timeStringFrom } from '@/utils/date';
-import { CreatePostDto, addPost } from '../services/supabase';
+import { CreatePostDto, addPost } from '../../_actions/post';
 import { revalidatePath } from 'next/cache';
 
-export default function CreatePost() {
+type CreatePostProps = {
+  onSubmit?: (post: CreatePostDto) => void
+}
+export default function CreatePost({ onSubmit }: CreatePostProps) {
     const [text, setText] = useState('');
     const [result, setResult] = useState<CreatePostDto|null>(null);
     const [loading, setLoading] = useState(false)
@@ -33,9 +36,7 @@ export default function CreatePost() {
             ticket_url: data.ticketLinks?.length > 0 ? data.ticketLinks[0] : undefined, //JSON.stringify(data.ticketLinks) : undefined,
             location: data.location,
           })
-
-            // data);
-          // router.refresh()    
+      
       }
       catch(e) {
         console.log(e)
@@ -52,6 +53,9 @@ export default function CreatePost() {
           console.log("[handleSubmit]", result)
           addPost(result!)
           router.refresh()
+          if(onSubmit) {
+            onSubmit!(result!)
+          }
         }
         catch(e) {
           console.log(e)

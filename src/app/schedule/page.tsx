@@ -5,7 +5,7 @@ import { cookies } from 'next/headers'
 // import { Session, useSupabaseClient } from '@supabase/auth-helpers-react'
 // import { useEffect, useState } from 'react'
 import type { Database } from '@/../lib/database.types'
-import PostList from '../components/PostList'
+import PostList from '../_components/PostList'
 // import supabase from '@/lib/supabase'
 
 // interface PostDto {

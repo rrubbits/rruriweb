@@ -17,7 +17,7 @@ export function getTenseOfDate(date: Date, now: Date, unit: 'day'): string {
 export function dateStringFrom(dateString: string): string {
     const date = parseISO(dateString);
     console.log("[formatDate] - ", dateString, date)
-    const formattedDate = format(date, "M/dd (EEE)", { locale: ja });
+    const formattedDate = format(date, "M/d (EEE)", { locale: ja });
     return formattedDate;
 }
 export function timeStringFrom(dateString: string): string {

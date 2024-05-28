@@ -1,16 +1,16 @@
 "use client"
 // import dayjs from "dayjs";
 import {ChevronDownIcon, ChevronRightIcon} from '@heroicons/react/24/solid'
-import { deletePost } from './postActions'
+import { deletePost, trashPost } from '../_actions/post'
 import type { Database } from '@/../lib/database.types'
-import PostItem from '../components/PostItem'
+import PostItem from './PostItem'
 // import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useEffect, useState } from 'react'
 import { getTenseOfDate } from '@/utils/date'
-type Posts = Database['public']['Tables']['posts']['Row']
+import { Posts } from '../_actions/post'
 
 const PostList = () => {
-  const [posts, setPosts] = useState<Posts[]>([]);
+  // const [posts, setPosts] = useState<Posts[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [groupedPosts, setGroupedPosts] = useState<{ [key: string]: Posts[] }>({})
   const [showPast, setShowPast] = useState<boolean>(false)
@@ -33,7 +33,7 @@ const PostList = () => {
     async function fetchPosts() {
       const res = await fetch('/api/posts');
       const data = await res.json();
-      setPosts(data);
+      // setPosts(data);
       groupPostsByDate(data)
       setIsLoading(false);
     }
@@ -85,9 +85,6 @@ const PostList = () => {
               </div>
               <div key={"Today"} className="bg-slate-200 rounded-md my-2">
                 <h2 className="mb-4 font-bold text-xl p-2 flex">
-                  {/* <button onClick={() => setShowPast(!showPast)}> */}
-                  {/* <span style={{ fontSize: '0.5m', marginRight: '0.5em' }}>{showPast ? "▼" : "▶"}</span> */}
-                    {/* {showPast ? "▼" : "▶"} */}
                     <span>
                       {`今日のイベント `}
                     </span>
@@ -95,43 +92,29 @@ const PostList = () => {
                       {!isLoading && `${groupedPosts['Today'].length}件`}
                     </span>
                 </h2>
-                {/* {showPast && */}
                 <ul>
                   {groupedPosts['Today'].map((post) => (
                     <PostItem key={post.id} post={post} deletePost={deletePost} />
                   ))}
                 </ul>
-                {/* } */}
               </div>
               <div key={"Future"} className="bg-slate-200 rounded-md my-2">
                 <h2 className="mb-4 font-bold text-xl p-2 flex items-center">
-                  {/* <button onClick={() => setShowPast(!showPast)}> */}
-                  {/* <span style={{ fontSize: '0.5m', marginRight: '0.5em' }}>{showPast ? "▼" : "▶"}</span> */}
-                    {/* {showPast ? "▼" : "▶"} */}
                     <span>
                       {`これからのイベント `}
                     </span>
                     <span className="ml-auto text-sm">
                       {!isLoading && `${groupedPosts['Future'].length}件`}
                     </span>
-                  {/* </button> */}
                 </h2>
-                {/* {showPast && */}
                 <ul>
                   {groupedPosts['Future'].map((post) => (
                     <PostItem key={post.id} post={post} deletePost={deletePost} />
                   ))}
                 </ul>
-                {/* } */}
               </div>
             </div>
           }
-          {/* ))} */}
-          {/* <ul>
-            {posts?.map((post) => (
-              <PostItem key={post.id} post={post} deletePost={deletePost}/>
-            ))}
-          </ul> */}
       </div>
     )
   }

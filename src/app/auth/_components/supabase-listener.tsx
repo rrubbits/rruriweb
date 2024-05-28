@@ -4,7 +4,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import Navigation from './Navigation'
 import type { Database } from '@/../lib/database.types'
-type ProfileType = Database['public']['Tables']['profiles']['Row']
+// type ProfileType = Database['public']['Tables']['profiles']['Row']
 
 // 認証状態の監視
 const SupabaseListener = async () => {

@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 
 // const inter = Inter({ subsets: ["latin"] });
 import Image from "next/image";
-import SupabaseListener from '../auth/components/supabase-listener'
+import SupabaseListener from '../auth/_components/supabase-listener'
 
 
 export const metadata: Metadata = {

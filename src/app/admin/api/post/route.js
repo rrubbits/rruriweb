@@ -1,21 +1,7 @@
 
 import OpenAI from 'openai'
-import { addPost } from '../../services/supabase'
-const datetimeFrom = (dateStr, timeStr) => {
-  console.log('timestampFrom', dateStr, timeStr)
-  // dateStr.replace('0000', '2024')
-  const [year, month, day] = dateStr.replace('0000', '2024').split('.').map(Number);
-  let [hours, minutes] = [0, 0]
-  try {
-    [hours, minutes] = timeStr?.split(':').map(Number)
-  }
-  catch (e) {
-    console.log("Error parsing timeStr", e, timeStr)
-  }
-  const combinedDate = new Date(year, month - 1, day, hours, minutes);
-  console.log('combinedDate2', dateStr, timeStr, combinedDate);
-  return combinedDate.toISOString();
-};
+import { addPost } from '../../../_actions/auth'
+import { datetimeFrom } from '../../_utils/date';
 
 // 発行したAPI Keyを使って設定を定義
 const openai = new OpenAI({
