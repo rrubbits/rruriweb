@@ -1,29 +1,22 @@
 import { parse, format, addYears } from 'date-fns';
-
+// import { utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
+import { toDate } from 'date-fns-tz'
 export const datetimeFrom = (dateStr, timeStr) => {
-    console.log('timestampFrom', dateStr, timeStr);
-
-    if (timeStr =='invalid time') {
+    // '2024.12.4' '00:00'
+    dateStr = dateStr.replace('0000', '2024')
+    const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/
+    if (!timeStr || !timeRegex.test(timeStr)) {
+        console.log('Invalid time format. Using default time.')
         timeStr = "00:00"
     }
-    
-    dateStr = dateStr.replace('0000', '2024');
-
-    const parsedDate = parse(dateStr, 'yyyy.MM.dd', new Date());
-
-    let [hours, minutes] = [0, 0];
-    if (timeStr) {
-        try {
-            [hours, minutes] = timeStr.split(':').map(Number);
-        } catch (e) {
-            console.log("Error parsing timeStr", e, timeStr);
-        }
+    // const timeZone = 'Asia/Tokyo';    // console.log(`${dateStr} ${timeStr}`)
+    const combinedStr = `${dateStr} ${timeStr}`;
+    const datetimeRegex = /^(\d{4})\.(\d{2})\.(\d{2}) (\d{2}):(\d{2})$/;
+    const match = combinedStr.match(datetimeRegex);
+    if (!match) {
+        throw new Error('Invalid date or time format');
     }
-    const combinedDate = new Date(parsedDate);
-    combinedDate.setHours(hours, minutes);
-
-    const isoString = format(combinedDate, "yyyy-MM-dd'T'HH:mm:ss.SSSX");
-
-    console.log('combinedDate2', dateStr, timeStr, combinedDate);
-    return isoString;
+    const [_, year, month, day, hours, minutes] = match;
+    const formattedDateStr = `${year}-${month}-${day}T${hours}:${minutes}:00.000+09:00`;
+    return formattedDateStr;
 };
