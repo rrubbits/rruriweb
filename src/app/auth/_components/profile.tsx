@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
 import Loading from '@/app/loading'
 import * as z from 'zod'
-import type { Database } from '@/../lib/database.types'
+import type { Database } from '@/lib/database.types'
 import useStore from '@/store'
 type Schema = z.infer<typeof schema>
 

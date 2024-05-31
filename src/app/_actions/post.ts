@@ -2,7 +2,7 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { getUser } from './auth'
-import type { Database } from '@/../lib/database.types'
+import type { Database } from '@/lib/database.types'
 export type Posts = Database['public']['Tables']['posts']['Row']
 // type ProfileType = Database['public']['Tables']['profiles']['Row']
 
@@ -11,11 +11,11 @@ export interface CreatePostDto {
     title: string
     content: string
     timestamp_begin: string
-    timestamp_end: string | undefined
+    timestamp_end?: string | undefined
     ticket_url: string | undefined
     location: string | undefined
   }
-type UpdatePostDto = Partial<CreatePostDto>
+export type UpdatePostDto = Partial<CreatePostDto>
 
 export const getPosts = async (): Promise<Posts[]> => {
     const supabase = createServerComponentClient<Database>({ cookies })
@@ -32,6 +32,21 @@ export const getPosts = async (): Promise<Posts[]> => {
   }
 
 
+  export const getPost = async (uuid: string): Promise<Posts | undefined> => {
+    const supabase = createServerComponentClient<Database>({ cookies })
+    const { data, error } = await supabase
+    .from('posts')
+    .select()//, profiles!inner(name)')
+    .eq('uuid', uuid)
+    .single()
+    // .is('deleted_at', null);
+    if (error) {
+      console.error('Error fetching posts:', error);
+      return undefined //[];
+    }
+    console.log("[getPost]", uuid, data);
+    return data //as Posts //as Posts[]
+  }
   export const addPost = async (dto: CreatePostDto): Promise<Posts | null> => {
       // console.
       console.log('[addPost]', dto);

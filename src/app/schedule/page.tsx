@@ -1,11 +1,13 @@
-// "use client"
+"use client"
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 // import { Database } from '@/lib/schema'
 // import { Session, useSupabaseClient } from '@supabase/auth-helpers-react'
 // import { useEffect, useState } from 'react'
-import type { Database } from '@/../lib/database.types'
+import type { Database } from '@/lib/database.types'
 import PostList from '../_components/PostList'
+import { useRouter } from 'next/navigation'
+// import { useRoute}
 // import supabase from '@/lib/supabase'
 
 // interface PostDto {
@@ -20,9 +22,12 @@ import PostList from '../_components/PostList'
 type Posts = Database['public']['Tables']['posts']['Row']
 
 const Schedule = async () => {
+  const router = useRouter()
   return (
     <div className="flex flex-col w-full items-center">
-      <PostList/>
+      <PostList onClick={(uuid) => {
+        router.push(`/schedule/post/${uuid}`)
+      }}/>
     </div>
   )
 }

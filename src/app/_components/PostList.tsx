@@ -2,14 +2,14 @@
 // import dayjs from "dayjs";
 import {ChevronDownIcon, ChevronRightIcon} from '@heroicons/react/24/solid'
 import { deletePost, trashPost } from '../_actions/post'
-import type { Database } from '@/../lib/database.types'
+import type { Database } from '@/lib/database.types'
 import PostItem from './PostItem'
 // import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useEffect, useState } from 'react'
 import { getTenseOfDate } from '@/utils/date'
 import { Posts } from '../_actions/post'
 
-const PostList = () => {
+const PostList = ({onClick}: {onClick: (uuid: string) => void}) => {
   // const [posts, setPosts] = useState<Posts[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [groupedPosts, setGroupedPosts] = useState<{ [key: string]: Posts[] }>({})
@@ -78,7 +78,7 @@ const PostList = () => {
                 {showPast &&
                   <ul className="">
                     {groupedPosts['Past'].map((post) => (
-                      <PostItem key={post.id} post={post} deletePost={deletePost} />
+                      <PostItem key={post.id} post={post} deletePost={deletePost} onClick={onClick}/>
                     ))}
                   </ul>
                 }
@@ -94,7 +94,7 @@ const PostList = () => {
                 </h2>
                 <ul>
                   {groupedPosts['Today'].map((post) => (
-                    <PostItem key={post.id} post={post} deletePost={deletePost} />
+                    <PostItem key={post.id} post={post} deletePost={deletePost} onClick={onClick}/>
                   ))}
                 </ul>
               </div>
@@ -109,7 +109,7 @@ const PostList = () => {
                 </h2>
                 <ul>
                   {groupedPosts['Future'].map((post) => (
-                    <PostItem key={post.id} post={post} deletePost={deletePost} />
+                    <PostItem key={post.id} post={post} deletePost={deletePost} onClick={onClick} />
                   ))}
                 </ul>
               </div>

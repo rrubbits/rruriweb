@@ -10,9 +10,9 @@ interface PostItemProps {
     onClick?: (uuid: string) => void
 }
 
-const PostItem = ({ post, deletePost, onClick }: PostItemProps) => {
+const PostView = ({ post, deletePost, onClick }: PostItemProps) => {
     let me = post.me
-    console.log("[PostItem] - ", post)
+    console.log("[PostView] - ", post)
     // if(me) {
         return (
             <li className="flex flex-col p-2 items-stretch">
@@ -40,9 +40,7 @@ const PostItem = ({ post, deletePost, onClick }: PostItemProps) => {
                       {post.ticket_url}
                   </a>
               </div>
-              <p className="box-border pl-10 mt-2 line-clamp-1 cursor-pointer" onClick={(e) => {
-                onClick!(post.uuid)
-              }}>
+              <p className="box-border pl-10 mt-2">
                 {post.content}
                   {/* <div className="prose" dangerouslySetInnerHTML={{ __html: post.content }}></div> */}
               </p>
@@ -53,4 +51,4 @@ const PostItem = ({ post, deletePost, onClick }: PostItemProps) => {
     //     return <div></div>
     // }
   }
-  export default PostItem
+  export default PostView

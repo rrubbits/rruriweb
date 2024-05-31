@@ -1,7 +1,7 @@
 
 import OpenAI from 'openai'
 import { addPost } from '../../../_actions/auth'
-import { datetimeFrom } from '../../_utils/date';
+import { isoStringFrom } from '../../_utils/date';
 
 // 発行したAPI Keyを使って設定を定義
 const openai = new OpenAI({
@@ -56,7 +56,7 @@ export async function POST(request) {
         // createdAt: string
         let dto = { title: answer.title,
           content: text,
-          timestamp_begin: datetimeFrom(answer.date, answer.openingTime ??  answer.startintTime),
+          timestamp_begin: isoStringFrom(answer.date, answer.openingTime ??  answer.startintTime),
           ticketLinks: answer.ticketLinks,
           // ticket_url: answer.ticketLinks ?? [], // JSON.stringify(answer.ticketLinks) : null 
           location: answer.location,

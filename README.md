@@ -46,8 +46,9 @@ npx supabase gen types typescript --project-id fkqlrkbkiejnfrnbpcds > ./lib/data
 
 # TODO
 
-1. [Schedule] Post編集、削除
+1. [Schedule] Post編集、削除 
 2. [Schedule] Calendar
 3. [Schedule] 予約状態　Reservation(Post.reservations, Profile.reservations)
 4. [Home] QRコードのリンク追加
+5. [Schedule] /schedule/post/[uuid] 実装.
 

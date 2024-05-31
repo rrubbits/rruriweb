@@ -2,7 +2,7 @@ import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { redirect } from 'next/navigation'
 import Login from '@/app/auth/_components/login'
-import type { Database } from '@/../lib/database.types'
+import type { Database } from '@/lib/database.types'
 
 // ログインページ
 const LoginPage = async () => {

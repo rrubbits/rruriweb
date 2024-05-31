@@ -3,11 +3,11 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react';
 import Loading from '@/app/loading';
 import { dateStringFrom, isoStringFromDate, localedDateStringFrom, timeStringFrom } from '@/utils/date';
-import { CreatePostDto, addPost } from '../../_actions/post';
+import { CreatePostDto, UpdatePostDto, addPost } from '../../_actions/post';
 import { revalidatePath } from 'next/cache';
 import { isoStringFrom } from '../_utils/date';
 
-type CreatePostProps = {
+type EditPostProps = {
   onSubmit?: (post: CreatePostDto) => void
 }
 let defaultDto = {
@@ -17,7 +17,7 @@ let defaultDto = {
   ticket_url: '',
   location: '',
 }
-export default function CreatePost({ onSubmit }: CreatePostProps) {
+export default function EditPost({ onSubmit }: EditPostProps) {
     const [text, setText] = useState('');
     const [result, setResult] = useState<CreatePostDto|null>(defaultDto);
     const [loading, setLoading] = useState(false)

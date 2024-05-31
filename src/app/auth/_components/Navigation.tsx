@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useEffect } from 'react'
 import type { Session } from '@supabase/auth-helpers-nextjs'
-import type { Database } from '@/../lib/database.types'
+import type { Database } from '@/lib/database.types'
 type ProfileType = Database['public']['Tables']['profiles']['Row']
 
 // ナビゲーション
