@@ -59,7 +59,7 @@ export default function CreatePost({ onSubmit }: CreatePostProps) {
         // console.log("[text]", text)
         try {
           console.log("[handleSubmit]", result)
-          addPost(result!)
+          await addPost(result!)
           router.refresh()
           if(onSubmit) {
             onSubmit!(result!)

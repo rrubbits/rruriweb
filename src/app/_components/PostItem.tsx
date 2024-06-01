@@ -40,7 +40,7 @@ const PostItem = ({ post, deletePost, onClick }: PostItemProps) => {
                       {post.ticket_url}
                   </a>
               </div>
-              <p className="box-border pl-10 mt-2 line-clamp-1 cursor-pointer" onClick={(e) => {
+              <p className="box-border pl-4 mt-2 line-clamp-2 cursor-pointer" onClick={(e) => {
                 onClick!(post.uuid)
               }}>
                 {post.content}

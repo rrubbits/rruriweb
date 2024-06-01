@@ -48,7 +48,11 @@ npx supabase gen types typescript --project-id fkqlrkbkiejnfrnbpcds > ./lib/data
 
 1. [Schedule] Post編集、削除 
 2. [Schedule] Calendar
-3. [Schedule] 予約状態　Reservation(Post.reservations, Profile.reservations)
+3. [Schedule] 予約状態　Reservation (Post.reservations, Profile.reservations)
 4. [Home] QRコードのリンク追加
-5. [Schedule] /schedule/post/[uuid] 実装.
-
+5. [Schedule] /schedule/post/[uuid] 実装
+6. [Schedule] 配信LINK、（スキーマLink: createdAt, url. LinkDomain: createdAt, url, type - undetermined, livehouse, broadcast ）
+7. [Admin] SUBMIT後LOADING UI, Validation
+8. [Schedule] Post更新機能　revisedBy_id
+9. [Schedule] Pagination - 過去のポストは前月だけ表示して、その前のリストはクリックしてModalで表示する。
+0. ユーザープロフィール
