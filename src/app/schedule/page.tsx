@@ -7,24 +7,13 @@ import { cookies } from 'next/headers'
 import type { Database } from '@/lib/database.types'
 import PostList from '../_components/PostList'
 import { useRouter } from 'next/navigation'
-// import { useRoute}
-// import supabase from '@/lib/supabase'
 
-// interface PostDto {
-//   id: string
-//   createdAt: string
-//   // user_id: string
-//   title: string
-//   content: string
-//   timestamp_begin: string
-//   timestamp_end: string
-// }
 type Posts = Database['public']['Tables']['posts']['Row']
 
-const Schedule = async () => {
+const Schedule = () => {
   const router = useRouter()
   return (
-    <div className="flex flex-col w-full items-center">
+    <div className="flex flex-col items-center">
       <PostList onClick={(uuid) => {
         router.push(`/schedule/post/${uuid}`)
       }}/>

@@ -17,10 +17,26 @@
         "name": "next"
       }
     ],
+    
     "paths": {
+      // "globalize": [
+      //   "./node_modules/globalize/dist/globalize"
+      // ],
+      // "globalize/*": [
+      //   "./node_modules/globalize/dist/globalize/*"
+      // ],
+      // "cldr": [
+      //   "./node_modules/cldrjs/dist/cldr"
+      // ],
+      // "cldr/*": [
+      //   "./node_modules/cldrjs/dist/cldr/*"
+      // ],
+      // "jszip": [
+      //   "./node_modules/jszip/dist/jszip.min.js"
+      // ],
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/schedule/page.jsx", "src/app/admin/api/route.js", "src/app/parse/page.jsx", "src/app/api/parseText.js"],
   "exclude": ["node_modules"]
 }

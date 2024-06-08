@@ -17,7 +17,8 @@ export default function ResponsiveLayout({ children }) {
                      {/* show={showSidebar} setter2={() => {
                         setShowSidebar(oldVal =>!oldVal);
                     }} /> */}
-                    <div className="md:ml-[250px] transition-[margin-left] ease-in-out duration-500  flex flex-col flex-grow w-screen md:w-full min-h-screen items-center justify-center pt-[60px]">
+                    {/* <div className="md:ml-[250px] transition-[margin-left] ease-in-out duration-500  flex flex-col flex-grow w-screen md:w-full min-h-screen items-center justify-center pt-[60px]"> */}
+                    <div className="md:ml-[250px] transition-[margin-left] ease-in-out duration-500  flex flex-col flex-grow w-full md:w-[50%] min-h-screen items-center justify-center pt-[60px]">
                         <main className="flex flex-col h-full w-full p-2">
                             {children}
                         </main>

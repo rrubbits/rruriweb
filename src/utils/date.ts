@@ -15,9 +15,9 @@ export function getTenseOfDate(date: Date, now: Date, unit: 'day'): string {
         return 'Future';
     }
 }
-const timeZone = 'Asia/Tokyo';
+const timeZone_tokyo = 'Asia/Tokyo';
 
-export function localedDateStringFrom(isoString: string): string {
+export function localedDateStringFrom(isoString: string, {timeZone}: { timeZone: string } = { timeZone: timeZone_tokyo }): string {
     // const date = parseISO(ISOString);
     try {
         const formattedDate = formatInTimeZone(isoString, timeZone, "M/d (EEE)", { locale: ja });
@@ -28,17 +28,17 @@ export function localedDateStringFrom(isoString: string): string {
         throw Error(`[localedDateStringFrom] ${isoString} ${error}`);
     }
 }
-export function dateStringFrom(isoString: string): string {
+export function dateStringFrom(isoString: string, {timeZone}: { timeZone: string } = { timeZone: timeZone_tokyo }): string {
     const formattedDate = formatInTimeZone(isoString, timeZone, "yyyy-MM-dd");
     return formattedDate;
 }
 // export function isoString
-export function timeStringFrom(isoString: string): string {
+export function timeStringFrom(isoString: string, {timeZone}: { timeZone: string } = { timeZone: timeZone_tokyo }): string {
     const formattedTime = formatInTimeZone(isoString, timeZone, 'HH:mm', { locale: ja })
     return formattedTime;
 }
 
-export const isoStringFromStrings = (dateStr: string, timeStr: string) : string => {
+export const isoStringFromStrings = (dateStr: string, timeStr: string, offsetStr: string = '+09:00') : string => {
     // '2024.12.4' '00:00'
     dateStr = dateStr.replace('0000', '2024')
     const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/
@@ -54,7 +54,7 @@ export const isoStringFromStrings = (dateStr: string, timeStr: string) : string 
         throw new Error('Invalid date or time format');
     }
     const [_, year, month, day, hours, minutes] = match;
-    const formattedDateStr = `${year}-${month}-${day}T${hours}:${minutes}:00.000+09:00`;
+    const formattedDateStr = `${year}-${month}-${day}T${hours}:${minutes}:00.000${offsetStr}`;
     return formattedDateStr;
 };
 

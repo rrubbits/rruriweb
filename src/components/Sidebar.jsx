@@ -18,7 +18,7 @@ const Sidebar = ({title}) => {
 
     const className = "bg-white w-[250px] border-r-2 transition-[margin-left] ease-in-out duration-500 fixed top-0 bottom-0 left-0 z-40";
     // Append class based on state of sidebar visiblity
-    const appendClass = show ? " ml-0" : " ml-[-300px] md:ml-0";
+    const appendClass = show ? " ml-0" : " ml-[-250px] md:ml-0";
     const ModalOverlay = () => {
         return <div
             className={`flex md:hidden fixed top-0 right-0 bottom-0 left-0 bg-black/50 -z-10`}
