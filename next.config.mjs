@@ -11,9 +11,8 @@ const nextConfig = {
   //   return config;
   // },
   // experimental: {
-    // experimental: {
-    //   serverActions: true,
-    // },
+  runtime: 'edge',
+  // },
   images: {
     domains: ['fkqlrkbkiejnfrnbpcds.supabase.co'],
   },

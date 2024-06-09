@@ -1,3 +1,4 @@
+;
 // "use client"
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
@@ -8,6 +9,7 @@ import type { Database } from '@/lib/database.types'
 import PostItem from '@/app/_components/PostItem'
 import { getPost } from '@/app/_actions/post'
 import PostView from '@/app/_components/PostView'
+
 
 type Posts = Database['public']['Tables']['posts']['Row']
 

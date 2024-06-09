@@ -1,5 +1,5 @@
 
-export const runtime = 'edge'
+
 export const dynamic = 'force-dynamic'
 
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'

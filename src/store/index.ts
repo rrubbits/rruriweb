@@ -2,7 +2,7 @@
 // https://github.com/pmndrs/zustand
 import { create } from 'zustand'
 import type { Database } from '@/lib/database.types'
-export const runtime = 'edge';
+;
 
 type ProfileType = Database['public']['Tables']['profiles']['Row']
 type StateType = {
