@@ -1,11 +1,11 @@
 "use client"
 // import dayjs from "dayjs";
-import {ChevronDownIcon, ChevronRightIcon} from '@heroicons/react/24/solid'
+import {ChevronDownIcon, ChevronRightIcon, ChevronUpIcon} from '@heroicons/react/24/solid'
 import { deletePost, trashPost } from '../_actions/post'
 import type { Database } from '@/lib/database.types'
 import PostItem from './PostItem'
 // import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useEffect, useState } from 'react'
+import { SyntheticEvent, useCallback, useEffect, useMemo, useState } from 'react'
 // import { getTenseOfDate } from '@/utils/date'
 import { Posts } from '../_actions/post'
 
@@ -29,27 +29,7 @@ import 'moment/locale/ja';
 // import ja from 'date-fns/locale/ja'
 import { ja } from 'date-fns/locale'
 import CalendarToolbar from '@/app/_components/CalendarToolbar'
-// import { ja } from "date-fns/locale"
-// const locales = {
-//   ja
-//   // "ja": require("date-fns/locale/ja")
-// }
 
-// const localizer = {
-//   format: (date, formatStr) => format(date, formatStr, { locale: ja }),
-//   parse: (date, formatStr) => parse(date, formatStr, new Date(), { locale: ja }),
-//   startOfWeek: () => startOfWeek(new Date(), { locale: ja }),
-//   getDay: (date) => getDay(date),
-// };
-
-// const localizer = dateFnsLocalizer({
-//   format,
-//   parse,
-//   startOfWeek,
-//   getDay,
-//   locales,
-// })
-// import globalize from "globalize";
 const localizer = momentLocalizer(moment)
 const formats: Formats = {
   dateFormat: 'D',
@@ -66,12 +46,12 @@ interface PostsCalendarOptions {
 }
 interface PostsCalendarProps {
   options?: PostsCalendarOptions
-  onClick: (uuid: string) => void
+  // onClick: (uuid: string) => void
 
 }
 import { isSameDay, differenceInCalendarDays } from 'date-fns';
-import { formatInTimeZone } from 'date-fns-tz'
-import PostsSection from './PostsSection'
+import { useRouter } from 'next/navigation'
+import GroupedPostList from './GroupedPostList'
 
 function getTenseOfDate(date: Date, now: Date, unit: 'day'): PostsCalendarSectionTypes {
   // console.log("[getTenseOfDate] date, now", date, now, differenceInCalendarDays(date, now))
@@ -108,28 +88,30 @@ function groupPostsByDate(posts: Posts[], groupKeys: PostsCalendarSectionTypes[]
   return groups
 }
 
-const sectionInfos: {[key:string]:{title: string, collapsable?: boolean, styles?:{root?:string, h2?:string}}} = {
-  past: {
-    title:  '過去のイベント',
-    collapsable: true,
-    styles: {root:"opacity-50", h2:"text-blue-600"}
-  },
-  today: {
-    title: '今日のイベント',
-    collapsable: false,
-    // styles: {root:"", h2:"text-blue-600"}
-  },
-  future: {
-    title: 'これからのイベント',
-    collapsable: false,
-    // styles: {root:"", h2:"text-blue-600"}
-  }
+type CalendarEvent = {
+  title: string
+  start: Date
+  end: Date
+  type: string
+  uuid: string
 }
-const PostsCalendar = ({onClick, options}: PostsCalendarProps) => {
+
+const PostsCalendar = ({options={showCalendar:true}}: PostsCalendarProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [groupedPosts, setGroupedPosts] = useState<{ [key: string]: Posts[] }>({})
   const [showPast, setShowPast] = useState<boolean>(false)
+  const [isCalendarCollapsed, setIsCalendarCollapsed] = useState<boolean>(false)
+
   const sectionKeys = options?.sections ?? ['past', 'today', 'future']
+  const router = useRouter()
+  // const onClick = useCallback((uuid: string) => {
+    // router.push(`/schedule/post/${uuid}`)
+  // },[router])
+  const onCalendarSelectEvent = useCallback((event: CalendarEvent) => {
+    router.push(`/schedule/post/${event.uuid}`)
+      // onClick(event.uuid);
+      // refs[uuid].scrollIntoView()
+  }, [router])
 
   useEffect(() => {
     async function fetchPosts() {
@@ -141,41 +123,50 @@ const PostsCalendar = ({onClick, options}: PostsCalendarProps) => {
     setIsLoading(true)
     fetchPosts();
   }, [options?.sections]);
-  const pastEvents = groupedPosts['past']?.map(post =>
-    ({
-      title: post.title,
-      start: new Date(post.timestamp_begin!),
-      end: new Date(post.timestamp_end ?? post.timestamp_begin!),
-      type: 'past',
-      uuid: post.uuid
-    })
-  )
-  const todayEvents = groupedPosts['today']?.map(post =>
-    ({
-      title: post.title,
-      start: new Date(post.timestamp_begin!),
-      end: new Date(post.timestamp_end ?? post.timestamp_begin!),
-      type: 'today',
-      uuid: post.uuid
-
-    })
-  )
-  const futureEvents = groupedPosts['future']?.map(post =>
-    ({
-      title: post.title,
-      start: new Date(post.timestamp_begin!),
-      end: new Date(post.timestamp_end ?? post.timestamp_begin!),
-      type: 'future',
-      uuid: post.uuid
-    })
-  )
-  const events = pastEvents?.concat(todayEvents ?? []).concat(futureEvents ?? [])
+  const events = useMemo(() => {
+    const pastEvents = groupedPosts['past']?.map<CalendarEvent>(post =>
+      ({
+        title: post.title,
+        start: new Date(post.timestamp_begin!),
+        end: new Date(post.timestamp_end ?? post.timestamp_begin!),
+        type: 'past',
+        uuid: post.uuid
+      })
+    )
+    const todayEvents = groupedPosts['today']?.map<CalendarEvent>(post =>
+      ({
+        title: post.title,
+        start: new Date(post.timestamp_begin!),
+        end: new Date(post.timestamp_end ?? post.timestamp_begin!),
+        type: 'today',
+        uuid: post.uuid
+      })
+    )
+    const futureEvents = groupedPosts['future']?.map<CalendarEvent>(post =>
+      ({
+        title: post.title,
+        start: new Date(post.timestamp_begin!),
+        end: new Date(post.timestamp_end ?? post.timestamp_begin!),
+        type: 'future',
+        uuid: post.uuid
+      })
+    )
+    const events = pastEvents?.concat(todayEvents ?? []).concat(futureEvents ?? [])
+    return events
+  }, [groupedPosts])
+  
   // console.log("[PostList] events", events)
   return (
   <div className="w-full flex flex-col max-w-4xl">
     {/* h-[90vh] */}
-      {options?.showCalendar && 
-        <div className="flex-1 h-[500px] min-h-[300px] bg-gray-100">
+        <div className="flex justify-end">
+          <button onClick={() => setIsCalendarCollapsed(!isCalendarCollapsed)}>
+            {isCalendarCollapsed? <div className='inline-flex'>Calendar<ChevronUpIcon className="h-6 w-6" /></div> : <ChevronDownIcon className="h-6 w-6" />}
+          </button>
+        </div>
+
+      {options?.showCalendar && !isCalendarCollapsed &&
+        <div className="h-[500px] bg-gray-100">
           <Calendar
             localizer={localizer}
             events={events}
@@ -197,24 +188,11 @@ const PostsCalendar = ({onClick, options}: PostsCalendarProps) => {
               }
               return {};
             }}
-            onSelectEvent={(event) => {
-              onClick(event.uuid);
-              // refs[uuid].scrollIntoView()
-            }}
+            onSelectEvent={onCalendarSelectEvent}
           />
         </div>
       }
-      <div className="flex-1 overflow-y-scroll">
-            <div className="overflow-hidden">
-              {
-                  sectionKeys.map((key) => {
-                    return (
-                      <PostsSection key={key} collapsable={sectionInfos[key].collapsable} posts={groupedPosts[key]}  title={sectionInfos[key].title} onClick={onClick} styles={sectionInfos[key].styles}/>
-                    )
-                  })
-              }
-            </div>
-      </div>
+      <GroupedPostList groupedPosts={groupedPosts}/>
     </div>
   )
 }

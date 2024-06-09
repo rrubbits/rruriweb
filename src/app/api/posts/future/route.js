@@ -4,6 +4,9 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { fromZonedTime, format } from 'date-fns-tz'
+
+export const dynamic = 'force-dynamic';
+
 const timeZone = 'Asia/Tokyo';
 export async function GET(request) {
     const supabase = createRouteHandlerClient({ cookies });

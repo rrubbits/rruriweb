@@ -1,4 +1,5 @@
-
+// "use client"
+// import dayjs from "dayjs";
 import {ChevronDownIcon, ChevronRightIcon} from '@heroicons/react/24/solid'
 import { deletePost, trashPost } from '../_actions/post'
 import type { Database } from '@/lib/database.types'
@@ -28,29 +29,26 @@ import 'moment/locale/ja';
 // import ja from 'date-fns/locale/ja'
 import { ja } from 'date-fns/locale'
 import CalendarToolbar from '@/app/_components/CalendarToolbar'
-import PostsSectionHeader from './PostsSectionHeader'
 
-interface PostsSectionProps {
-  // collapsable?: boolean
-  // isCollapsed: boolean
-  // posts: Posts[] | undefined
-  key: string
+interface PostsSectionHeaderProps {
   numberOfItems: number | undefined
   title: string
-  // onClickItem: ((uuid: string) => void) | undefined
-  // onClick: () => void
   styles?: {root?:string, h2?:string}
+  icons?: React.ReactNode;
   children?: React.ReactNode; // children prop 추가
 }
-
-const PostsSection = ({key, numberOfItems, title, styles, children}: PostsSectionProps) => {
-  return <div key={key} className={"bg-slate-200 rounded-md my-2 " + styles?.root}>
-  {/* // "bg-slate-200 rounded-md my-2 opacity-50" */}
-  {/* <button className="flex items-center w-full mb-4" onClick={() => setIsCollapsed(p => !p)}> */}
-    <PostsSectionHeader title={title} numberOfItems={numberOfItems} styles={styles}/>
-  {/* </button> */}
-  {children}
-</div>
+// collapsable = false, 
+const PostsSectionHeader = ({icons, numberOfItems, title, styles}: PostsSectionHeaderProps) => {
+  return <h2 className={"font-bold text-x p-2 flex items-center w-full " + styles?.h2}>
+      <span className="pr-4">
+        {title}
+      </span>
+      {/* <div className="w-5"> */}
+       { icons && icons }
+      {/* </div> */}
+    <span className="ml-auto text-sm">
+      {numberOfItems && `${numberOfItems!}件`}
+    </span>
+  </h2>
 }
-
-export default PostsSection
+export default PostsSectionHeader

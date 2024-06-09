@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import Login from '@/app/auth/_components/login'
 import type { Database } from '@/lib/database.types'
 
+export const dynamic = 'force-dynamic';
 // ログインページ
 const LoginPage = async () => {
   const supabase = createServerComponentClient<Database>({

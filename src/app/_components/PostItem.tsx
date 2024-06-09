@@ -1,16 +1,16 @@
-"use client"
 import type { Database } from '@/lib/database.types'
 import { trashPost } from '../_actions/post'
 import { localedDateStringFrom, timeStringFrom } from '@/utils/date'
+import PostNavigateButton from './PostNavigateButton'
 
 // type Posts = Database['public']['Tables']['posts']['Row']
 interface PostItemProps { 
     post: any
-    deletePost?: (_: string) => Promise<any>
-    onClick?: (uuid: string) => void
+    deletePost?: (uuid: string) => Promise<any>
+    // onClick?: (uuid: string) => void
 }
 
-const PostItem = ({ post, deletePost, onClick }: PostItemProps) => {
+const PostItem = ({ post, deletePost }: PostItemProps) => {
     let me = post.me
     console.log("[PostItem] - ", post)
     // if(me) {
@@ -40,17 +40,10 @@ const PostItem = ({ post, deletePost, onClick }: PostItemProps) => {
                       {post.ticket_url}
                   </a>
               </div>
-              <p className="box-border pl-4 mt-2 line-clamp-2 cursor-pointer" onClick={(e) => {
-                onClick!(post.uuid)
-              }}>
+              <PostNavigateButton post={post}>
                 {post.content}
-                  {/* <div className="prose" dangerouslySetInnerHTML={{ __html: post.content }}></div> */}
-              </p>
+              </PostNavigateButton>
             </li>
           )
-    // }
-    // else {
-    //     return <div></div>
-    // }
   }
   export default PostItem

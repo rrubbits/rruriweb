@@ -1,38 +1,20 @@
+"use client"
 import Image from "next/image";
 import Link from "next/link";
-import PostList from "./_components/GroupedPostList";
-import PostsCalendar from "./_components/PostsCalendar";
-import { getPosts } from "./_actions/post";
-import GroupedPostList from "./_components/GroupedPostList";
-// import { useRouter } from "next/navigation";
+// import PostList from "./_components/PostList";
+import { useRouter } from "next/navigation";
 // import Sidebar from "@/components/Sidebar";
-import { GET } from "./api/posts/today/route";
+
 function Card() {
   return <Image src="/card2.jpg" alt="card" width="600" height="300" layout="responsive"/>
   // fill" objectFit="cover"
 }
 
-export default async function Home() {
+export default function HomeCard() {
   console.log("[Home] Render")
-  // const router = useRouter()
-  const res = await GET(); //fetch('/api/posts');
-  const data = await res.json();
-  const groupedPosts = {
-    'today': data
-  }
-  console.log("[Home] groupedPosts: " + JSON.stringify(groupedPosts))
+  const router = useRouter()
   return (
-      <div className="flex flex-col h-full w-full"> 
-          <div className="inline-flex">
-            <span className="font-semibold text-2xl pl-4">
-              HOME
-            </span>
-            <div className="pb-2 px-2 pl-8 flex-1 max-w-[52rem]">
-            <GroupedPostList groupedPosts={groupedPosts}/>
-          </div>
-
-          </div>
-          
+      // <div className="flex flex-col h-full w-full">           
           <div className="pt-8 pb-2 px-2 max-w-[60rem]">
             <div className="relative rounded-[2vw] overflow-hidden"> {/* overlay layer */}
               <Card/>
@@ -80,7 +62,7 @@ export default async function Home() {
               </div>
             </div>
           </div>
-    </div>
+    // </div>
   );
 }
 

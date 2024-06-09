@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation'
 import Logout from '@/app/auth/_components/logout'
 import type { Database } from '@/lib/database.types'
 
+export const dynamic = 'force-dynamic';
+
 // ログアウトページ
 const LogoutPage = async () => {
   const supabase = createServerComponentClient<Database>({

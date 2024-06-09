@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import Password from '@/app/auth/_components/password'
 import type { Database } from '@/lib/database.types'
 
+export const dynamic = 'force-dynamic';
 // パスワード変更ページ
 const PasswordPage = async () => {
   const supabase = createServerComponentClient<Database>({

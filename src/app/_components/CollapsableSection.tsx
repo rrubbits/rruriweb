@@ -1,4 +1,5 @@
-
+"use client"
+// import dayjs from "dayjs";
 import {ChevronDownIcon, ChevronRightIcon} from '@heroicons/react/24/solid'
 import { deletePost, trashPost } from '../_actions/post'
 import type { Database } from '@/lib/database.types'
@@ -30,11 +31,11 @@ import { ja } from 'date-fns/locale'
 import CalendarToolbar from '@/app/_components/CalendarToolbar'
 import PostsSectionHeader from './PostsSectionHeader'
 
-interface PostsSectionProps {
-  // collapsable?: boolean
+interface CollapsablePostsSectionProps {
+  key: string
+  collapsable?: boolean
   // isCollapsed: boolean
   // posts: Posts[] | undefined
-  key: string
   numberOfItems: number | undefined
   title: string
   // onClickItem: ((uuid: string) => void) | undefined
@@ -43,14 +44,20 @@ interface PostsSectionProps {
   children?: React.ReactNode; // children prop 추가
 }
 
-const PostsSection = ({key, numberOfItems, title, styles, children}: PostsSectionProps) => {
+const CollapsablePostsSection = ({key, numberOfItems, title, styles, children}: CollapsablePostsSectionProps) => {
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(true)
   return <div key={key} className={"bg-slate-200 rounded-md my-2 " + styles?.root}>
   {/* // "bg-slate-200 rounded-md my-2 opacity-50" */}
-  {/* <button className="flex items-center w-full mb-4" onClick={() => setIsCollapsed(p => !p)}> */}
-    <PostsSectionHeader title={title} numberOfItems={numberOfItems} styles={styles}/>
-  {/* </button> */}
-  {children}
+  <button className="flex items-center w-full mb-4" onClick={() => setIsCollapsed(p => !p)}>
+    <PostsSectionHeader title={title} numberOfItems={numberOfItems} styles={styles} icons={
+      <div className="w-5">
+        {isCollapsed ? <ChevronRightIcon/> : <ChevronDownIcon/>}
+      </div>
+    }/>
+
+  </button>
+  {!isCollapsed && children}
 </div>
 }
 
-export default PostsSection
+export default CollapsablePostsSection

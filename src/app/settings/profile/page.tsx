@@ -5,6 +5,8 @@ import Profile from '@/app/auth/_components/profile'
 
 import type { Database } from '@/lib/database.types'
 
+export const dynamic = 'force-dynamic';
+
 const ProfilePage = async () => {
   const supabase = createServerComponentClient<Database>({
     cookies,
