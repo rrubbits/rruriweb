@@ -5,16 +5,16 @@ import { ja } from 'date-fns/locale';
 // import { toZonedTime, fromZonedTime, toDate } from "date-fns-tz";
 import { formatInTimeZone } from 'date-fns-tz'
 // import { parse, format, addYears } from 'date-fns';
-export function getTenseOfDate(date: Date, now: Date, unit: 'day'): string {
-    // console.log("[getTenseOfDate] date, now", date, now, differenceInCalendarDays(date, now))
-    if (isSameDay(date, now)) {
-        return 'Today';
-    } else if (differenceInCalendarDays(date, now) < 0) {
-        return 'Past';
-    } else {
-        return 'Future';
-    }
-}
+// export function getTenseOfDate(date: Date, now: Date, unit: 'day'): string {
+//     // console.log("[getTenseOfDate] date, now", date, now, differenceInCalendarDays(date, now))
+//     if (isSameDay(date, now)) {
+//         return 'today';
+//     } else if (differenceInCalendarDays(date, now) < 0) {
+//         return 'past';
+//     } else {
+//         return 'future';
+//     }
+// }
 const timeZone_tokyo = 'Asia/Tokyo';
 
 export function localedDateStringFrom(isoString: string, {timeZone}: { timeZone: string } = { timeZone: timeZone_tokyo }): string {

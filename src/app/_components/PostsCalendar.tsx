@@ -59,125 +59,21 @@ const formats: Formats = {
   dayRangeHeaderFormat: (range: DateRange, culture?: Culture, localizer?: DateLocalizer) => `${format(range.start, 'M月d日(eee)', { locale: ja })} ~ ${format(range.end, 'M月d日(eee)', { locale: ja })} `,
 }
  
-
-
-// import { useRoute}
-// import supabase from '@/lib/supabase'
-
-// interface PostDto {
-//   id: string
-//   createdAt: string
-//   // user_id: string
-//   title: string
-//   content: string
-//   timestamp_begin: string
-//   timestamp_end: string
-// }\
-// const events = [
-//   {
-//     'title': 'All Day Event very long title',
-//     'allDay': true,
-//     'start': new Date(2024, 3, 0),
-//     'end': new Date(2024, 3, 1)
-//   },
-//   {
-//     'title': 'Long Event',
-//     'start': new Date(2024, 3, 7),
-//     'end': new Date(2024, 3, 10)
-//   },
-
-//   {
-//     'title': 'DTS STARTS',
-//     'start': new Date(2024, 2, 13, 0, 0, 0),
-//     'end': new Date(2024, 2, 20, 0, 0, 0)
-//   },
-
-//   {
-//     'title': 'DTS ENDS',
-//     'start': new Date(2016, 10, 6, 0, 0, 0),
-//     'end': new Date(2016, 10, 13, 0, 0, 0)
-//   },
-
-//   {
-//     'title': 'Some Event',
-//     'start': new Date(2015, 3, 9, 0, 0, 0),
-//     'end': new Date(2015, 3, 9, 0, 0, 0)
-//   },
-//   {
-//     'title': 'Conference',
-//     'start': new Date(2015, 3, 11),
-//     'end': new Date(2015, 3, 13),
-//     desc: 'Big conference for important people'
-//   },
-//   {
-//     'title': 'Meeting',
-//     'start': new Date(2015, 3, 12, 10, 30, 0, 0),
-//     'end': new Date(2015, 3, 12, 12, 30, 0, 0),
-//     desc: 'Pre-meeting meeting, to prepare for the meeting'
-//   },
-//   {
-//     'title': 'Lunch',
-//     'start': new Date(2015, 3, 12, 12, 0, 0, 0),
-//     'end': new Date(2015, 3, 12, 13, 0, 0, 0),
-//     desc: 'Power lunch'
-//   },
-//   {
-//     'title': 'Meeting',
-//     'start': new Date(2015, 3, 12, 14, 0, 0, 0),
-//     'end': new Date(2015, 3, 12, 15, 0, 0, 0)
-//   },
-//   {
-//     'title': 'Happy Hour',
-//     'start': new Date(2015, 3, 12, 17, 0, 0, 0),
-//     'end': new Date(2015, 3, 12, 17, 30, 0, 0),
-//     desc: 'Most important meal of the day'
-//   },
-//   {
-//     'title': 'Dinner',
-//     'start': new Date(2015, 3, 12, 20, 0, 0, 0),
-//     'end': new Date(2015, 3, 12, 21, 0, 0, 0)
-//   },
-//   {
-//     'title': 'Birthday Party',
-//     'start': new Date(2015, 3, 13, 7, 0, 0),
-//     'end': new Date(2015, 3, 13, 10, 30, 0)
-//   },
-//   {
-//     'title': 'Birthday Party 2',
-//     'start': new Date(2015, 3, 13, 7, 0, 0),
-//     'end': new Date(2015, 3, 13, 10, 30, 0)
-//   },
-//   {
-//     'title': 'Birthday Party 3',
-//     'start': new Date(2015, 3, 13, 7, 0, 0),
-//     'end': new Date(2015, 3, 13, 10, 30, 0)
-//   },
-//   {
-//     'title': 'Late Night Event',
-//     'start': new Date(2015, 3, 17, 19, 30, 0),
-//     'end': new Date(2015, 3, 18, 2, 0, 0)
-//   },
-//   {
-//     'title': 'Multi-day Event',
-//     'start': new Date(2015, 3, 20, 19, 30, 0),
-//     'end': new Date(2015, 3, 22, 2, 0, 0)
-//   }
-// ]
-
-type PostListSectionTypes = 'past'|'today'|'future'
-interface PostListOptions { 
-  sections?: PostListSectionTypes[]
+type PostsCalendarSectionTypes = 'past'|'today'|'future'
+interface PostsCalendarOptions { 
+  sections?: PostsCalendarSectionTypes[]
   showCalendar?: boolean
 }
-interface PostListProps {
-  options?: PostListOptions
+interface PostsCalendarProps {
+  options?: PostsCalendarOptions
   onClick: (uuid: string) => void
 
 }
 import { isSameDay, differenceInCalendarDays } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz'
+import PostsSection from './PostsSection'
 
-function getTenseOfDate(date: Date, now: Date, unit: 'day'): PostListSectionTypes {
+function getTenseOfDate(date: Date, now: Date, unit: 'day'): PostsCalendarSectionTypes {
   // console.log("[getTenseOfDate] date, now", date, now, differenceInCalendarDays(date, now))
   if (isSameDay(date, now)) {
       return 'today';
@@ -187,7 +83,7 @@ function getTenseOfDate(date: Date, now: Date, unit: 'day'): PostListSectionType
       return 'future';
   }
 }
-function groupPostsByDate(posts: Posts[], groupKeys: PostListSectionTypes[]):  {
+function groupPostsByDate(posts: Posts[], groupKeys: PostsCalendarSectionTypes[]):  {
   [key: string]: Posts[]
 } {
   // console.log('[groupPostsByDate] posts', posts)
@@ -211,9 +107,6 @@ function groupPostsByDate(posts: Posts[], groupKeys: PostListSectionTypes[]):  {
   })
   return groups
 }
-{/* <PostsSection collapsable={true} posts={groupedPosts['past']}  title={'過去のイベント'} onClick={onClick} styles={{root:"opacity-50", h2:"text-blue-600"}}/>
-<PostsSection posts={groupedPosts['today']}  title={`今日のイベント `} onClick={onClick}/>
-<PostsSection posts={groupedPosts['future']}  title={`これからのイベント `} onClick={onClick}/> */}
 
 const sectionInfos: {[key:string]:{title: string, collapsable?: boolean, styles?:{root?:string, h2?:string}}} = {
   past: {
@@ -232,8 +125,7 @@ const sectionInfos: {[key:string]:{title: string, collapsable?: boolean, styles?
     // styles: {root:"", h2:"text-blue-600"}
   }
 }
-const PostList = ({onClick, options}: PostListProps) => {
-  // const [posts, setPosts] = useState<Posts[]>([]);
+const PostsCalendar = ({onClick, options}: PostsCalendarProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [groupedPosts, setGroupedPosts] = useState<{ [key: string]: Posts[] }>({})
   const [showPast, setShowPast] = useState<boolean>(false)
@@ -313,9 +205,6 @@ const PostList = ({onClick, options}: PostListProps) => {
         </div>
       }
       <div className="flex-1 overflow-y-scroll">
-        {/* <h1 className="mb-12">Posts {posts?.length} </h1> */}
-          {/* {Object.keys(groupedPosts).map((date) => ( */}
-          {/* {Object.keys(groupedPosts).length > 2 && */}
             <div className="overflow-hidden">
               {
                   sectionKeys.map((key) => {
@@ -324,51 +213,11 @@ const PostList = ({onClick, options}: PostListProps) => {
                     )
                   })
               }
-              {/* <PostsSection collapsable={true} posts={groupedPosts['past']}  title={'過去のイベント'} onClick={onClick} styles={{root:"opacity-50", h2:"text-blue-600"}}/>
-              <PostsSection posts={groupedPosts['today']}  title={`今日のイベント `} onClick={onClick}/>
-              <PostsSection posts={groupedPosts['future']}  title={`これからのイベント `} onClick={onClick}/> */}
             </div>
-          {/* } */}
       </div>
     </div>
   )
 }
-  interface PostsSectionProps {
-    posts: Posts[] | undefined
-    title: string
-    onClick: ((uuid: string) => void) | undefined
-    collapsable?: boolean
-    styles?: {root?:string, h2?:string}
-  }
-  const PostsSection = ({collapsable = false, posts, title, onClick, styles}: PostsSectionProps) => {
-    const [isCollapsed, setIsCollapsed] = useState<boolean>(collapsable ? true : false)
 
-    return <div key={"Past"} className={"bg-slate-200 rounded-md my-2 " + styles?.root}>
-    {/* // "bg-slate-200 rounded-md my-2 opacity-50" */}
-    <button className="flex items-center w-full mb-4" onClick={collapsable ? (() => setIsCollapsed(!isCollapsed)) : () => {}}>
-      <h2 className={"font-bold text-x p-2 flex items-center w-full " + styles?.h2}>
-          <span className="pr-4">
-            {title}
-          </span>
-          {
-            collapsable && 
-            <span className="w-5">
-              {!isCollapsed ? <ChevronDownIcon/> : <ChevronRightIcon/>}
-            </span>
-          }
-          <span className="ml-auto text-sm">
-          {posts && `${posts!.length}件`}
-          </span>
-      </h2>
-    </button>
-    {!isCollapsed &&
-      <ul className="">
-        {(posts ?? []).map((post) => (
-          <PostItem key={post.id} post={post} deletePost={deletePost} onClick={onClick}/>
-        ))}
-      </ul>
-    }
-  </div>
-}
 
-  export default PostList
+  export default PostsCalendar

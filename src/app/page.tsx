@@ -1,19 +1,32 @@
 "use client"
 import Image from "next/image";
 import Link from "next/link";
+import PostList from "./_components/PostList";
+import { useRouter } from "next/navigation";
 // import Sidebar from "@/components/Sidebar";
 
 function Card() {
   return <Image src="/card2.jpg" alt="card" width="600" height="300" layout="responsive"/>
   // fill" objectFit="cover"
 }
+
 export default function Home() {
   console.log("[Home] Render")
+  const router = useRouter()
   return (
       <div className="flex flex-col h-full w-full"> 
-          <div className="font-semibold text-2xl pl-4">
-            HOME
+          <div className="inline-flex">
+            <span className="font-semibold text-2xl pl-4">
+              HOME
+            </span>
+            <div className="pb-2 px-2 pl-8 flex-1 max-w-[52rem]">
+            <PostList options={{sections: ['today']}} onClick={(uuid) => {
+              router.push(`/schedule/post/${uuid}`)
+            }}/>
           </div>
+
+          </div>
+          
           <div className="pt-8 pb-2 px-2 max-w-[60rem]">
             <div className="relative rounded-[2vw] overflow-hidden"> {/* overlay layer */}
               <Card/>
