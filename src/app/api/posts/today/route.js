@@ -46,7 +46,7 @@ export async function GET(request) {
   
     if (error) {
       console.error('Error fetching posts:', error);
-      return NextResponse.error()
+      return NextResponse.error(error)
     }
     if(data) {
       console.log("[GET] ", user)
