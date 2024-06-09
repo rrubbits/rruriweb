@@ -2,21 +2,20 @@ import Image from "next/image";
 import Link from "next/link";
 import PostList from "./_components/GroupedPostList";
 import PostsCalendar from "./_components/PostsCalendar";
-import { getPosts } from "./_actions/post";
+import { getPosts, getPostsOfToday } from "./_actions/post";
 import GroupedPostList from "./_components/GroupedPostList";
 // import { useRouter } from "next/navigation";
 // import Sidebar from "@/components/Sidebar";
-import { GET } from "./api/posts/today/route";
+// import { GET } from "./api/posts/today/route";
 function Card() {
-  return <Image src="/card2.jpg" alt="card" width="600" height="300" layout="responsive"/>
+  return <Image src="/card.jpg" alt="card" width="600" height="300" layout="responsive"/>
   // fill" objectFit="cover"
 }
-
 export default async function Home() {
   console.log("[Home] Render")
   try {
-    const res = await GET(); //fetch('/api/posts');
-    const data = await res.json();
+    const data = await getPostsOfToday()
+    // const data = await res.json();
     const groupedPosts = {
       'today': data
     }

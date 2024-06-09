@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 // import Sidebar from "@/components/Sidebar";
 
 function Card() {
-  return <Image src="/card2.jpg" alt="card" width="600" height="300" layout="responsive"/>
+  return <Image src="/card.jpg" alt="card" width="600" height="300" layout="responsive"/>
   // fill" objectFit="cover"
 }
 
