@@ -9,7 +9,7 @@ import { Posts } from '../_actions/post'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'; 
 import PostsSection from './PostsSection'
-import CollapsablePostsSection from './CollapsableSection'
+import CollapsablePostsSection from './PostsCollapsableSection'
 
 const sectionInfos: {[key:string]:{title: string, collapsable?: boolean, styles?:{root?:string, h2?:string}}} = {
   past: {
