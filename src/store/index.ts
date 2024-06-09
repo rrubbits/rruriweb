@@ -2,8 +2,9 @@
 // https://github.com/pmndrs/zustand
 import { create } from 'zustand'
 import type { Database } from '@/lib/database.types'
-type ProfileType = Database['public']['Tables']['profiles']['Row']
+export const runtime = 'edge';
 
+type ProfileType = Database['public']['Tables']['profiles']['Row']
 type StateType = {
   user: ProfileType
   setUser: (payload: ProfileType) => void

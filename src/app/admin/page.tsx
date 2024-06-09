@@ -1,4 +1,6 @@
 // 'use client'
+export const runtime = 'edge'
+
 import { createClientComponentClient, createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import type { Database } from '@/lib/database.types'
 import { cookies } from 'next/headers';

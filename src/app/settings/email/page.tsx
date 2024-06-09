@@ -1,10 +1,12 @@
+export const runtime = 'edge'
+export const dynamic = 'force-dynamic'
+
 import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { redirect } from 'next/navigation'
 import Email from '@/app/auth/_components/email'
 import type { Database } from '@/lib/database.types'
 
-export const dynamic = 'force-dynamic';
 // メールアドレス変更ページ
 const EmailPage = async () => {
   const supabase = createServerComponentClient<Database>({

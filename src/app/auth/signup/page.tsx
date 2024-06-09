@@ -1,10 +1,12 @@
+export const runtime = 'edge'
+export const dynamic = 'force-dynamic'
+
 import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { redirect } from 'next/navigation'
 import Signup from '@/app/auth/_components/signup'
 import type { Database } from '@/lib/database.types'
 
-export const dynamic = 'force-dynamic';
 
 // サインアップページ
 const SignupPage = async () => {

@@ -1,10 +1,11 @@
+export const runtime = 'edge'
+export const dynamic = 'force-dynamic'
+
 import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { redirect } from 'next/navigation'
 import Logout from '@/app/auth/_components/logout'
 import type { Database } from '@/lib/database.types'
-
-export const dynamic = 'force-dynamic';
 
 // ログアウトページ
 const LogoutPage = async () => {
