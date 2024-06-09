@@ -23,16 +23,15 @@ export default async function Home() {
   // console.log("[Home] groupedPosts: " + JSON.stringify(groupedPosts))
   return (
       <div className="flex flex-col h-full"> 
-          <div className="inline-flex">
+          {/* <div className="inline-flex"> */}
             <span className="font-semibold text-2xl pl-4">
               HOME
             </span>
-            <div className="flex-1 pb-2 pl-2 max-w-[52rem]">
+            <div className="pb-2 px-2 max-w-[60rem]">
               <GroupedPostList groupedPosts={groupedPosts}/>
-            </div>
-          </div>
-          
-          <div className="pt-8 pb-2 px-2 max-w-[60rem]">
+            </div>          
+          {/* </div> */}
+          <div className="pb-2 px-2 max-w-[60rem]">
             <div className="relative rounded-[2vw] overflow-hidden"> {/* overlay layer */}
               <Card/>
               <div className="absolute inset-0 flex justify-center "> 
