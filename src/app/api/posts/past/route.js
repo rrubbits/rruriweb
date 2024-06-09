@@ -7,18 +7,15 @@ export const dynamic = 'force-dynamic'
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
-import { fromZonedTime, format } from 'date-fns-tz'
 
-const timeZone = 'Asia/Tokyo'
+import { startOfDayInTimeZone, timeZone_tokyo as timeZone } from '@/utils/date'
 export async function GET(request) {
     const supabase = createRouteHandlerClient({ cookies });
     const {
       data: { session },
     } = await supabase.auth.getSession()
     const user = session?.user;
-    // const currentDate = new Date().toISOString()
-    const startOfTodayJST = fromZonedTime(new Date().setHours(0, 0, 0, 0), timeZone);
-    const endOfTodayJST = fromZonedTime(new Date().setHours(23, 59, 59, 999), timeZone);
+    const startOfTodayJST = startOfDayInTimeZone(new Date(), timeZone)
 
     const { data, error } = await supabase
       .from('posts')

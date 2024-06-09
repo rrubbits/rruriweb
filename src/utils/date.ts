@@ -1,9 +1,9 @@
 // import dayjs, { Dayjs } from "dayjs";
-import { isSameDay, differenceInCalendarDays } from 'date-fns';
+import { isSameDay, differenceInCalendarDays, addDays } from 'date-fns';
 import { format, parseISO } from 'date-fns';
 import { ja } from 'date-fns/locale';
 // import { toZonedTime, fromZonedTime, toDate } from "date-fns-tz";
-import { formatInTimeZone } from 'date-fns-tz'
+import { formatInTimeZone, fromZonedTime } from 'date-fns-tz'
 // import { parse, format, addYears } from 'date-fns';
 // export function getTenseOfDate(date: Date, now: Date, unit: 'day'): string {
 //     // console.log("[getTenseOfDate] date, now", date, now, differenceInCalendarDays(date, now))
@@ -15,8 +15,15 @@ import { formatInTimeZone } from 'date-fns-tz'
 //         return 'future';
 //     }
 // }
-const timeZone_tokyo = 'Asia/Tokyo';
+export const timeZone_tokyo = 'Asia/Tokyo';
 
+export function startOfDayInTimeZone(date: Date, timeZone: string) {
+    return fromZonedTime(formatInTimeZone(date, timeZone, 'yyyy-MM-dd 00:00:00'), timeZone)
+}
+// export function endOfDayInTimeZone(date: Date, timeZone: string) {
+//     return addDays(startOfDayInTimeZone(date, timeZone), 1)
+// }
+  
 export function localedDateStringFrom(isoString: string, {timeZone}: { timeZone: string } = { timeZone: timeZone_tokyo }): string {
     // const date = parseISO(ISOString);
     try {

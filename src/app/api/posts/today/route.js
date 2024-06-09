@@ -5,9 +5,10 @@ export const dynamic = 'force-dynamic'
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
-import { fromZonedTime, formatInTimeZone, toZonedTime } from 'date-fns-tz'
+
 import { addDays } from 'date-fns'
-const timeZone = 'Asia/Tokyo';
+import { startOfDayInTimeZone, timeZone_tokyo as timeZone } from '@/utils/date'
+
 export async function GET(request) {
     const supabase = createRouteHandlerClient({ cookies });
     const {
@@ -17,7 +18,7 @@ export async function GET(request) {
 
     // const currentDate = new Date().toISOString()
     
-    const startOfTodayJST = fromZonedTime(formatInTimeZone(new Date(), timeZone, 'yyyy-MM-dd 00:00:00'), timeZone);
+    const startOfTodayJST = startOfDayInTimeZone(new Date(), timeZone)
     const endOfTodayJST = addDays(startOfTodayJST, 1)
     // fromZonedTime(new Date().setHours(23, 59, 59, 999), timeZone)
     // console.log("[GET] startOfTodayJST: ", startOfTodayJST.toISOString(), toZonedTime(startOfTodayJST, timeZone).toUTCString())
