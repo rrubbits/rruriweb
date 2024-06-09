@@ -56,7 +56,7 @@ export async function GET(request) {
           // username: post.profiles?.name,
           me: user?.id === post.user_id,
         }})
-      return NextResponse.json(posts)  
+      return NextResponse.json({posts, start: startOfTodayJST.toISOString(), end: endOfTodayJST.toISOString()})  
     }
     return NextResponse.error()
 }
