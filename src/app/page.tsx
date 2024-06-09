@@ -20,17 +20,16 @@ export default async function Home() {
   const groupedPosts = {
     'today': data
   }
-  console.log("[Home] groupedPosts: " + JSON.stringify(groupedPosts))
+  // console.log("[Home] groupedPosts: " + JSON.stringify(groupedPosts))
   return (
-      <div className="flex flex-col h-full w-full"> 
+      <div className="flex flex-col h-full"> 
           <div className="inline-flex">
             <span className="font-semibold text-2xl pl-4">
               HOME
             </span>
-            <div className="pb-2 px-2 pl-8 flex-1 max-w-[52rem]">
-            <GroupedPostList groupedPosts={groupedPosts}/>
-          </div>
-
+            <div className="flex-1 pb-2 pl-2 max-w-[52rem]">
+              <GroupedPostList groupedPosts={groupedPosts}/>
+            </div>
           </div>
           
           <div className="pt-8 pb-2 px-2 max-w-[60rem]">
