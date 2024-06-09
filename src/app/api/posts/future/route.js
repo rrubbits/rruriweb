@@ -31,6 +31,7 @@ export async function GET(request) {
       ticket_url,
       location,
       content,
+      uuid,
       profiles(name)
     `)
       .is('deleted_at', null)  
