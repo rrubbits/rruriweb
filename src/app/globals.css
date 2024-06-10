@@ -34,4 +34,6 @@
 
 body:has(dialog[open]) {
   overflow: hidden;
+  /* padding-right: 10px; */
+  margin-right: 14px;
 }

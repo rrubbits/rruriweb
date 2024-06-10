@@ -4,6 +4,7 @@ import PostList from "./_components/GroupedPostList";
 import PostsCalendar from "./_components/PostsCalendar";
 import { getPosts, getPostsOfToday } from "./_actions/post";
 import GroupedPostList from "./_components/GroupedPostList";
+import { cache } from "react";
 // import { useRouter } from "next/navigation";
 // import Sidebar from "@/components/Sidebar";
 // import { GET } from "./api/posts/today/route";

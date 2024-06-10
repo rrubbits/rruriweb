@@ -3,29 +3,14 @@ import type { Database } from '@/lib/database.types'
 import { trashPost } from '../_actions/post'
 import { localedDateStringFrom, timeStringFrom } from '@/utils/date'
 
-// type Posts = Database['public']['Tables']['posts']['Row']
-interface PostItemProps { 
-    post: any
-    deletePost?: (_: string) => Promise<any>
-    onClick?: (uuid: string) => void
-}
 
-const PostView = ({ post, deletePost, onClick }: PostItemProps) => {
-    let me = post.me
-    console.log("[PostView] - ", post)
-    // if(me) {
+const PostViewFrame = ({children} : { children?: React.ReactNode }) => {
         return (
-            <div className="flex flex-col pb-10 space-y-2 h-[90%]">
-            {/* <style jsx>{`
-                .custom-height {
-                height: calc(70vh - 100px);
-                }
-            `}</style> */}
+            <div className="flex flex-col pb-10 space-y-2">
               <div className="flex flex-col bg-slate-300">
                 <div className="flex flex-row items-center">
-                    <span className="text-md font-bold text-slate-700 px-1">{localedDateStringFrom(post.timestamp_begin)}</span>
+                    {/* <span className="text-md font-bold text-slate-700 px-1">{localedDateStringFrom(post.timestamp_begin)}</span>
                     <span className="text-sm font-bold text-slate-700 pr-4">{timeStringFrom(post.timestamp_begin)}</span>
-                    {/* <span className="flex-grow"></span> */}
                     <a className="inline-flex pr-4 justify-start" href={`https://www.google.com/maps/search/?api=1&query=${post.location}`} target="_blank">
                         <span className="text-sm font-bold text-blue-600 truncate">
                             {post.location}
@@ -34,31 +19,20 @@ const PostView = ({ post, deletePost, onClick }: PostItemProps) => {
                     </a>
                     <span className="ml-auto text-sm text-slate-50">
                         by <span className="font-bold">{post.username} {me}</span>
-                    </span>
+                    </span> */}
                 </div>
-                <div className="text-lg font-bold w-auto px-7">{post.title}</div>
-                  {/* {post.username} */}
-                </div>
-                <div className="text-sm text-blue-500">
-                    <a href={post.ticket_url} target="_blank" rel="noopener noreferrer">
-                        {post.ticket_url}
-                    </a>
-                </div>
-                <div className="whitespace-pre-wrap py-4">
-                    {/* <div className="box-border pl-4 mt-2 whitespace-pre-wrap overflow-auto flex-grow"> */}
-                        {post.content}
-                    {/* </div> */}
-                </div>
-                {/* <div className="flex-grow flex">
-                    <div className="box-border pl-4 mt-2 bg-white whitespace-pre-wrap overflow-auto flex-grow">
-                        {post.content}
-                    </div>
-                </div> */}
+                {/* <div className="text-lg font-bold w-auto px-7">{post.title}</div> */}
+              </div>
+              <div className="text-sm text-blue-500">
+                  {/* <a href={post.ticket_url} target="_blank" rel="noopener noreferrer">
+                      {post.ticket_url}
+                  </a> */}
+              </div>
+              {/* <div className="whitespace-pre-wrap py-4">
+                      {post.content}
+              </div> */}
             </div>
           )
-    // }
-    // else {
-    //     return <div></div>
-    // }
+
   }
-  export default PostView
+  export default PostViewFrame

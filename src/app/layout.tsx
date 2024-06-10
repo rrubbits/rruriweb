@@ -27,7 +27,6 @@ export default function RootLayout({
         <ResponsiveLayout>
           {children}
         </ResponsiveLayout>
-        <div id="modal-root" />
       </body>
     </html>
   );
