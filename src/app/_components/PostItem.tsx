@@ -1,5 +1,5 @@
 import type { Database } from '@/lib/database.types'
-import { trashPost } from '../_actions/post'
+import { trashPost } from '../_functions/post'
 import { localedDateStringFrom, timeStringFrom } from '@/utils/date'
 import PostNavigateButton from './PostNavigateButton'
 

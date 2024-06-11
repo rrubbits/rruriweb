@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import PostList from "./_components/GroupedPostList";
 import PostsCalendar from "./_components/PostsCalendar";
-import { getPosts, getPostsOfToday } from "./_actions/post";
+import { getPosts, getPostsOfToday } from "./_functions/post";
 import GroupedPostList from "./_components/GroupedPostList";
 import { cache } from "react";
 // import { useRouter } from "next/navigation";

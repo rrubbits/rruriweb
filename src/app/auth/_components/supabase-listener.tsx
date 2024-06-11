@@ -1,5 +1,5 @@
-'use server'
-
+import 'server-only'
+// 'use server'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import Navigation from './Navigation'

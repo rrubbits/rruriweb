@@ -16,12 +16,12 @@ const Sidebar = ({title}) => {
     // let headers = headers()
     // let pathname = headers.get("x-pathname")
 
-    const className = "bg-white w-[250px] border-r-2 transition-[margin-left] ease-in-out duration-500 fixed top-0 bottom-0 left-0 z-40";
+    const className = "w-[250px] border-r-2 transition-[margin-left] ease-in-out duration-500 fixed top-0 bottom-0 left-0 z-40";
     // Append class based on state of sidebar visiblity
     const appendClass = show ? " ml-0" : " ml-[-250px] md:ml-0";
     const ModalOverlay = () => {
         return <div
-            className={`flex md:hidden fixed top-0 right-0 bottom-0 left-0 bg-black/50 -z-10`}
+            className={`flex md:hidden fixed top-0 right-0 bottom-0 left-0 bg-black/20 -z-10`}
             onClick={() => {
                 setShow(oldVal => !oldVal);
             }}
@@ -30,7 +30,7 @@ const Sidebar = ({title}) => {
 
     return (
     <div className={`${className}${appendClass}`}>
-        <div className="flex h-full flex-col z-40 bg-white">
+        <div className="bg-white/70 backdrop-blur-md flex h-full flex-col z-40">
             <div className="w-full text-center text-black text-3xl font-extrabold font-['Inter'] p-8">
                 ミツキルリの<br/>オスミツキ
             </div>

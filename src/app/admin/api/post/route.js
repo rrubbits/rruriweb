@@ -1,7 +1,7 @@
 
 
 import OpenAI from 'openai'
-import { addPost } from '../../../_actions/auth'
+import { addPost } from '../../../_functions/auth'
 import { isoStringFrom } from '../../_utils/date';
 
 // 発行したAPI Keyを使って設定を定義

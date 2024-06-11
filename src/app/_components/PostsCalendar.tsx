@@ -1,13 +1,13 @@
 "use client"
 // import dayjs from "dayjs";
 import {ChevronDownIcon, ChevronRightIcon, ChevronUpIcon} from '@heroicons/react/24/solid'
-import { deletePost, trashPost } from '../_actions/post'
+import { deletePost, trashPost } from '../_functions/post'
 import type { Database } from '@/lib/database.types'
 import PostItem from './PostItem'
 // import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { SyntheticEvent, useCallback, useEffect, useMemo, useState } from 'react'
 // import { getTenseOfDate } from '@/utils/date'
-import { Posts } from '../_actions/post'
+import { Posts } from '../_functions/post'
 
 
 import { Calendar, Culture, DateLocalizer, DateRange, Formats, dateFnsLocalizer, momentLocalizer } from 'react-big-calendar'
@@ -38,67 +38,34 @@ const formats: Formats = {
   dayHeaderFormat: 'M月D日(ddd)',
   dayRangeHeaderFormat: (range: DateRange, culture?: Culture, localizer?: DateLocalizer) => `${format(range.start, 'M月d日(eee)', { locale: ja })} ~ ${format(range.end, 'M月d日(eee)', { locale: ja })} `,
 }
- 
-type PostsCalendarSectionTypes = 'past'|'today'|'future'
-interface PostsCalendarOptions { 
-  sections?: PostsCalendarSectionTypes[]
-  showCalendar?: boolean
-}
-interface PostsCalendarProps {
-  options?: PostsCalendarOptions
-  // onClick: (uuid: string) => void
 
-}
 import { isSameDay, differenceInCalendarDays } from 'date-fns';
 import { useRouter } from 'next/navigation'
 import GroupedPostList from './GroupedPostList'
 
-function getTenseOfDate(date: Date, now: Date, unit: 'day'): PostsCalendarSectionTypes {
-  // console.log("[getTenseOfDate] date, now", date, now, differenceInCalendarDays(date, now))
-  if (isSameDay(date, now)) {
-      return 'today';
-  } else if (differenceInCalendarDays(date, now) < 0) {
-      return 'past';
-  } else {
-      return 'future';
-  }
-}
-function groupPostsByDate(posts: Posts[], groupKeys: PostsCalendarSectionTypes[]):  {
-  [key: string]: Posts[]
-} {
-  // console.log('[groupPostsByDate] posts', posts)
-  console.log('[groupPostsByDate] groupKeys', groupKeys)
-  const groups: { [key: string]: Posts[] } = groupKeys.reduce<{[key: string]: Posts[]}>((acc, key) => {
-    acc[key] = [];
-    return acc;
-  }, {});
-  console.log('[groupPostsByDate] groups', groups)
-  const currentDate = new Date()
-
-  posts.forEach(post => {
-    const postDate = new Date(post.timestamp_begin!) // timestamp_begin을 사용하여 포스트 날짜 가져오기
-    let groupKey = getTenseOfDate(postDate, currentDate, 'day')
-    if(groupKeys.includes(groupKey)) {
-      // if (!groups[groupKey]) {
-      //   groups[groupKey] = []
-      // }
-      groups[groupKey].push(post)  
-    }
-  })
-  return groups
-}
-
-type CalendarEvent = {
+export type CalendarEvent = {
   title: string
   start: Date
   end: Date
   type: string
   uuid: string
 }
+export type PostsCalendarSectionTypes = 'past'|'today'|'future'
 
-const PostsCalendar = ({options={showCalendar:true}}: PostsCalendarProps) => {
+interface PostsCalendarOptions { 
+  sections?: PostsCalendarSectionTypes[]
+  showCalendar?: boolean
+}
+
+interface PostsCalendarProps {
+  options?: PostsCalendarOptions
+  children?: React.ReactNode
+  // onClick: (uuid: string) => void
+  events: CalendarEvent[]
+}
+const PostsCalendar = ({events, options={showCalendar:true}, children}: PostsCalendarProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [groupedPosts, setGroupedPosts] = useState<{ [key: string]: Posts[] }>({})
+  // const [groupedPosts, setGroupedPosts] = useState<{ [key: string]: Posts[] }>({})
   const [showPast, setShowPast] = useState<boolean>(false)
   const [isCalendarCollapsed, setIsCalendarCollapsed] = useState<boolean>(false)
 
@@ -113,48 +80,11 @@ const PostsCalendar = ({options={showCalendar:true}}: PostsCalendarProps) => {
       // refs[uuid].scrollIntoView()
   }, [router])
 
-  useEffect(() => {
-    async function fetchPosts() {
-      const res = await fetch('/api/posts');
-      const data = await res.json();
-      setGroupedPosts(groupPostsByDate(data, options?.sections ?? ['past', 'today', 'future']))
-      setIsLoading(false);
-    }
-    setIsLoading(true)
-    fetchPosts();
-  }, [options?.sections]);
-  const events = useMemo(() => {
-    const pastEvents = groupedPosts['past']?.map<CalendarEvent>(post =>
-      ({
-        title: post.title,
-        start: new Date(post.timestamp_begin!),
-        end: new Date(post.timestamp_end ?? post.timestamp_begin!),
-        type: 'past',
-        uuid: post.uuid
-      })
-    )
-    const todayEvents = groupedPosts['today']?.map<CalendarEvent>(post =>
-      ({
-        title: post.title,
-        start: new Date(post.timestamp_begin!),
-        end: new Date(post.timestamp_end ?? post.timestamp_begin!),
-        type: 'today',
-        uuid: post.uuid
-      })
-    )
-    const futureEvents = groupedPosts['future']?.map<CalendarEvent>(post =>
-      ({
-        title: post.title,
-        start: new Date(post.timestamp_begin!),
-        end: new Date(post.timestamp_end ?? post.timestamp_begin!),
-        type: 'future',
-        uuid: post.uuid
-      })
-    )
-    const events = pastEvents?.concat(todayEvents ?? []).concat(futureEvents ?? [])
-    return events
-  }, [groupedPosts])
-  
+  // useEffect(() => {
+  //   setIsLoading(true)
+  //   fetchPosts();
+  // }, [options?.sections]);
+
   // console.log("[PostList] events", events)
   return (
   <div className="w-full flex flex-col max-w-4xl">
@@ -178,11 +108,11 @@ const PostsCalendar = ({options={showCalendar:true}}: PostsCalendarProps) => {
             eventPropGetter={({ type }) => {
               switch (type) {
                 case 'past':
-                  return {className: 'opacity-50', style: {fontSize: 10, padding: 0}};
+                  return {className: 'opacity-50', style: {backgroundColor: '#1e50a2', fontSize: 10, padding: 0}};
                 case 'today':
-                  return {style: {backgroundColor: 'red', fontSize: 10, padding: 0 }}//className: 'bg-black'};
+                  return {style: {backgroundColor: '#3080ff', fontSize: 10, padding: 0 }}//className: 'bg-black'};//'#1a4c8b'#2c73e6
                 case 'future':
-                  return {style: {fontSize: 10, padding: 0}};
+                  return {style: {backgroundColor: '#1e50a2', fontSize: 10, padding: 0}};
                       // case 'schedule':
                 //   return {style:{backgroundColor:'skyblue'}};
               }
@@ -192,7 +122,7 @@ const PostsCalendar = ({options={showCalendar:true}}: PostsCalendarProps) => {
           />
         </div>
       }
-      <GroupedPostList groupedPosts={groupedPosts}/>
+      {children && children}
     </div>
   )
 }

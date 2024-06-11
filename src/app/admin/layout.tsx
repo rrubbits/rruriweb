@@ -13,14 +13,16 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({
+  auth,
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{children: React.ReactNode, auth: React.ReactNode}>) {
   return (
     <div>
         <SupabaseListener />
-        {children}
+        <div className="flex flex-col items-stretch bg-black">
+          {auth}
+          {children}
+        </div>
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react';
 import Loading from '@/app/loading';
 import { dateStringFrom, isoStringFromDate, localedDateStringFrom, timeStringFrom } from '@/utils/date';
-import { CreatePostDto, addPost } from '../../_actions/post';
+import { CreatePostDto, addPost } from '../../_functions/post';
 import { revalidatePath } from 'next/cache';
 import { isoStringFrom } from '../_utils/date';
 

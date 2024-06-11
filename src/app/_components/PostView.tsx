@@ -1,16 +1,16 @@
-"use client"
+// "use client"
 import type { Database } from '@/lib/database.types'
-import { trashPost } from '../_actions/post'
+import { trashPost } from '../_functions/post'
 import { localedDateStringFrom, timeStringFrom } from '@/utils/date'
 
 // type Posts = Database['public']['Tables']['posts']['Row']
 interface PostItemProps { 
     post: any
-    deletePost?: (_: string) => Promise<any>
-    onClick?: (uuid: string) => void
+    // deletePost?: (_: string) => Promise<any>
+    // onClick?: (uuid: string) => void
 }
-
-const PostView = ({ post, deletePost, onClick }: PostItemProps) => {
+// deletePost, onClick
+const PostView = ({ post }: PostItemProps) => {
     let me = post.me
     console.log("[PostView] - ", post)
     // if(me) {

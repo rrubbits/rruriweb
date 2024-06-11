@@ -1,11 +1,11 @@
 import {ChevronDownIcon, ChevronRightIcon} from '@heroicons/react/24/solid'
-import { deletePost, trashPost } from '../_actions/post'
+import { deletePost, trashPost } from '../_functions/post'
 import type { Database } from '@/lib/database.types'
 import PostItem from './PostItem'
 // import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useEffect, useState } from 'react'
 // import { getTenseOfDate } from '@/utils/date'
-import { Posts } from '../_actions/post'
+import { Posts } from '../_functions/post'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'; 
 import PostsSection from './PostsSection'
@@ -38,7 +38,7 @@ interface GroupedPostListProps {
 
 const GroupedPostList = ({groupedPosts}: GroupedPostListProps) => {
   return (
-      <div className="flex-1 overflow-y-scroll">
+      <div className="flex-1">
         <div className="overflow-hidden">
           {
               Object.keys(groupedPosts).map((key) => {
