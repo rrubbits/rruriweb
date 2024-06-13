@@ -1,4 +1,5 @@
 
+export const runtime = 'edge'
 
 import OpenAI from 'openai'
 import { addPost } from '../../../_functions/auth'

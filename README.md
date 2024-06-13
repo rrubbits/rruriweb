@@ -56,3 +56,23 @@ npx supabase gen types typescript --project-id fkqlrkbkiejnfrnbpcds > ./lib/data
 8. [Schedule] Post更新機能　revisedBy_id
 9. [Schedule] Pagination - 過去のポストは前月だけ表示して、その前のリストはクリックしてModalで表示する。
 0. ユーザープロフィール
+
+
+
+# NOTES
+0.07 デプロイ先を「heroku」から「Cloudflare Pages」に変えました。
+0.08 デプロイ先を「Vercel」に変えました。
+「heroku」
+　サーバーがAmerica/Eastにあって遅い。
+「Cloudflare Pages」
+  応答速度が速かった。
+  NextjsのruntimeでNode.jsが使えなくruntimeをedgeに設定する必要がある。
+  edgeだとSSGが使えない限界がある。またherokuに戻るか、反応速度が早くSSGが使えるサーバーを探すべき。
+「Vercel」
+  runtimeでnode.jsが使える。
+  SettingsのFunctionsでFunction RegionをTokyoに変えることができた。
+
+SSGとキャッシュのrevalidation
+revalidate: DBをアップデートする度に、日付が変わるたびに。
+
+

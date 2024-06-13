@@ -24,7 +24,12 @@ export type UpdatePostDto = Partial<CreatePostDto>
 export const getPosts = async (): Promise<Posts[]> => {
   const supabase = createClient()
   // const supabase = createServerComponentClient<Database>({cookies})
-  const { data, error } = await supabase.from('posts').select()//, profiles!inner(name)')
+  const { data, error } = await supabase
+    .from('posts')
+    .select(`*, profiles(name)`)
+    .is('deleted_at', null)  
+    .order('timestamp_begin', { ascending: true })
+
   // .is('deleted_at', null);
   const {
     data: { session },
