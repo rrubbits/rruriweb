@@ -6,14 +6,23 @@
 // import { useEffect, useState } from 'react'
 // import type { Database } from '@/lib/database.types'
 // import PostItem from '@/app/_components/PostItem'
-import { getPost } from '@/app/_functions/post'
+import { Posts, getPost, getPosts } from '@/app/_functions/post'
 import PostView from '@/app/_components/PostView'
 
 // type Posts = Database['public']['Tables']['posts']['Row']
+export async function generateStaticParams() {
+    const posts = await getPosts()
+	// const response = await fetch('http://localhost:3000/api/posts')
+	// const posts: Posts[] = await response.json()
+	return posts.map((post) => ({
+		id: post.uuid    
+    }))
+}
 
-const Schedule = async ({params} : {params: {id: string}}) => {
-    console.log("<Schedule/post/[id]>", params)
-    let post = await getPost(params.id)
+const Schedule = async (props : {params: {id: string}}) => {
+    const params = props.params
+    console.log("<Schedule/post/[id]>", params, props)
+    let post = await getPost(params.id!)
     console.log("<Schedule/post/[id]>", post)
 
     return (

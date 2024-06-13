@@ -1,9 +1,4 @@
 "use client"
-import type { Database } from '@/lib/database.types'
-import { trashPost } from '../_functions/post'
-import { localedDateStringFrom, timeStringFrom } from '@/utils/date'
-
-
 const PostViewFrame = ({children} : { children?: React.ReactNode }) => {
         return (
             <div className="flex flex-col pb-10 space-y-2">

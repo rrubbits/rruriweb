@@ -1,6 +1,5 @@
 
-
-export const revalidate = 60
+// export const revalidate = 60
 export const dynamic = 'force-dynamic'
 
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
@@ -16,20 +15,19 @@ export async function GET(request) {
     // const currentDate = new Date().toISOString()
     const { data, error } = await supabase
       .from('posts')
-      .select(`
-        title,
-        timestamp_begin,
-        ticket_url,
-        location,
-        content,
-        uuid,
-        profiles(name)
-      `)
+      .select(`*, profiles(name)`)
+      //   title,
+      //   timestamp_begin,
+      //   ticket_url,
+      //   location,
+      //   content,
+      //   uuid,
+      //   profiles(name)
+      // `)
       .is('deleted_at', null)  
       // .gt('timestamp_begin', currentDate)
       .order('timestamp_begin', { ascending: true })
-      // .range(0, 10)  
-  
+      // .range(0, 10)    
     if (error) {
       console.error('Error fetching posts:', error);
       return NextResponse.error()

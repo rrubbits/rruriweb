@@ -1,11 +1,12 @@
 import {ChevronDownIcon, ChevronRightIcon} from '@heroicons/react/24/solid'
-import { deletePost, trashPost } from '../_functions/post'
-import type { Database } from '@/lib/database.types'
+// import { Posts, deletePost, trashPost } from '../_actions/post'
+import { Posts } from '../_functions/post'
+import { deletePost, trashPost } from '../_actions/posts'
+// import type { Database } from '@/lib/database.types'
 import PostItem from './PostItem'
 // import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useEffect, useState } from 'react'
 // import { getTenseOfDate } from '@/utils/date'
-import { Posts } from '../_functions/post'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'; 
 import PostsSection from './PostsSection'
@@ -61,7 +62,7 @@ const GroupedPostList = ({groupedPosts}: GroupedPostListProps) => {
                   numberOfItems={groupedPosts[key].length}>
                     <ul className="">
                       {(groupedPosts[key] ?? []).map((post) => (
-                        <PostItem key={post.id} post={post} deletePost={deletePost}/>
+                        <PostItem key={post.uuid} post={post} deletePost={deletePost}/>
                       ))}
                     </ul>
                 </PostsSection>

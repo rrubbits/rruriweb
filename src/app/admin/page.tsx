@@ -1,8 +1,7 @@
 import GroupedPostList from '../_components/GroupedPostList';
 import PostsCalendar from '../_components/PostsCalendar'
+import { eventsForGroupedPosts, groupPostsByDate } from '../_components/_utils/post';
 import { getPosts } from '../_functions/post';
-import { eventsForGroupedPosts, groupPostsByDate } from '../schedule/page';
-// import { revalidatePath } from 'next/cache';
 
 export default async function Admin() {
   const data = await getPosts()

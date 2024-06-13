@@ -1,13 +1,13 @@
 "use client"
 // import dayjs from "dayjs";
 import {ChevronDownIcon, ChevronRightIcon, ChevronUpIcon} from '@heroicons/react/24/solid'
-import { deletePost, trashPost } from '../_functions/post'
-import type { Database } from '@/lib/database.types'
-import PostItem from './PostItem'
+// import { deletePost, trashPost } from '../_functions/post'
+// import type { Database } from '@/lib/database.types'
+// import PostItem from './PostItem'
 // import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { SyntheticEvent, useCallback, useEffect, useMemo, useState } from 'react'
 // import { getTenseOfDate } from '@/utils/date'
-import { Posts } from '../_functions/post'
+// import { Posts } from '../_functions/post'
 
 
 import { Calendar, Culture, DateLocalizer, DateRange, Formats, dateFnsLocalizer, momentLocalizer } from 'react-big-calendar'
@@ -21,14 +21,9 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { format, parse, startOfWeek, getDay } from 'date-fns'
 import moment from 'moment';
 import 'moment/locale/ja';
-// import format from 'date-fns/format'
-// import parse from 'date-fns/parse'
-// import startOfWeek from 'date-fns/startOfWeek'
-// import getDay from 'date-fns/getDay'
-// import enUS from 'date-fns/locale/en-US'
-// import ja from 'date-fns/locale/ja'
 import { ja } from 'date-fns/locale'
 import CalendarToolbar from '@/app/_components/CalendarToolbar'
+
 
 const localizer = momentLocalizer(moment)
 const formats: Formats = {
@@ -39,18 +34,11 @@ const formats: Formats = {
   dayRangeHeaderFormat: (range: DateRange, culture?: Culture, localizer?: DateLocalizer) => `${format(range.start, 'M月d日(eee)', { locale: ja })} ~ ${format(range.end, 'M月d日(eee)', { locale: ja })} `,
 }
 
-import { isSameDay, differenceInCalendarDays } from 'date-fns';
+
 import { useRouter } from 'next/navigation'
 import GroupedPostList from './GroupedPostList'
-
-export type CalendarEvent = {
-  title: string
-  start: Date
-  end: Date
-  type: string
-  uuid: string
-}
-export type PostsCalendarSectionTypes = 'past'|'today'|'future'
+import { Posts } from '../_functions/post';
+import { CalendarEvent, PostsCalendarSectionTypes } from './_utils/post';
 
 interface PostsCalendarOptions { 
   sections?: PostsCalendarSectionTypes[]

@@ -1,11 +1,11 @@
 "use client"
 import { useRouter } from 'next/navigation'
-import { useState } from 'react';
-import Loading from '@/app/loading';
-import { dateStringFrom, isoStringFromDate, localedDateStringFrom, timeStringFrom } from '@/utils/date';
-import { CreatePostDto, UpdatePostDto, addPost } from '../../_functions/post';
-import { revalidatePath } from 'next/cache';
-import { isoStringFrom } from '../_utils/date';
+import { useState } from 'react'
+import Loading from '@/app/loading'
+import { dateStringFrom, isoStringFromDate, localedDateStringFrom, timeStringFrom } from '@/utils/date'
+import { CreatePostDto, UpdatePostDto } from '../../_functions/post'
+import { addPost } from '@/app/_actions/posts'
+import { isoStringFrom } from '../_utils/date'
 
 type EditPostProps = {
   onSubmit?: (post: CreatePostDto) => void
@@ -29,7 +29,7 @@ export default function EditPost({ onSubmit }: EditPostProps) {
       try {
         const response = await fetch('/admin/api/post', {
           method: 'POST',
-          headers: {
+        headers: {
               'Content-Type': 'application/json',
           },
           body: JSON.stringify({ text }),

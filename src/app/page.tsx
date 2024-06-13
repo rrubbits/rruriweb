@@ -1,10 +1,14 @@
-import Image from "next/image";
-import Link from "next/link";
-import PostList from "./_components/GroupedPostList";
-import PostsCalendar from "./_components/PostsCalendar";
-import { getPosts, getPostsOfToday } from "./_functions/post";
-import GroupedPostList from "./_components/GroupedPostList";
-import { cache } from "react";
+// export const runtime = "edge"
+// export const dynamic = 'force-dynamic'
+
+import Image from "next/image"
+import Link from "next/link"
+import PostList from "./_components/GroupedPostList"
+import PostsCalendar from "./_components/PostsCalendar"
+import { Posts, getPosts, getPostsOfToday } from "./_functions/post"
+import GroupedPostList from "./_components/GroupedPostList"
+import { unstable_cache } from "next/cache"
+// import { cache } from "react";
 // import { useRouter } from "next/navigation";
 // import Sidebar from "@/components/Sidebar";
 // import { GET } from "./api/posts/today/route";
@@ -12,13 +16,17 @@ function Card() {
   return <Image src="/card.jpg" alt="card" width="600" height="300" layout="responsive"/>
   // fill" objectFit="cover"
 }
+const getPostsOfToday_ = () => unstable_cache(getPostsOfToday, ['posts', 'today'], { tags: ['posts/today']})()
 export default async function Home() {
   console.log("[Home] Render")
   try {
-    const data = await getPostsOfToday()
+    const posts = await getPostsOfToday_();
+    // const response = await fetch('http://localhost:3000/api/posts/today')
+    // const data = await response.json() as Posts[];
+    // await getPostsOfToday()
     // const data = await res.json();
     const groupedPosts = {
-      'today': data
+      'today': posts
     }
     // console.log("[Home] groupedPosts: " + JSON.stringify(groupedPosts))
     return (

@@ -1,15 +1,12 @@
-import type { Database } from '@/lib/database.types'
-import { getPost, trashPost } from '../_functions/post'
-import { localedDateStringFrom, timeStringFrom } from '@/utils/date'
+import { unstable_cache } from 'next/cache'
+import { getPost } from '../_functions/post'
 import PostView from './PostView'
-
-// type Posts = Database['public']['Tables']['posts']['Row']
 interface PostViewWithUuidProps { 
     uuid: string
 }
-
+const getPost_= (uuid: string) => unstable_cache(getPost, ['post', uuid], { tags: [`post/${uuid}`]})(uuid)
 const PostViewWithUuid = async ({ uuid }: PostViewWithUuidProps) => {
-  let post = await getPost(uuid)
+  const post = await getPost_(uuid)
   return (
     <PostView post={post}/>
   )
