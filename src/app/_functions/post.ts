@@ -22,6 +22,7 @@ export type UpdatePostDto = Partial<CreatePostDto>
 
 export const getPosts_ = () => unstable_cache(getPosts, ['posts'], { tags: ['posts', 'post'] })()
 export const getPosts = async (): Promise<Posts[]> => {
+  console.log('[_functions/getPosts]')
   const supabase = createClient()
   const { data, error } = await supabase
     .from('posts')
@@ -33,13 +34,12 @@ export const getPosts = async (): Promise<Posts[]> => {
     return [];
   }
   return data as Posts[]
-  // return []
 }
 
 export const getPostsOfToday_ = () => unstable_cache(getPostsOfToday, ['posts', 'today'], { tags: ['posts', 'post', 'today']})()
 export const getPostsOfToday = async (): Promise<Posts[]> => {
+  console.log('[_functions/getPostsOfToday]')
   const supabase = createClient()  
-
   const startOfTodayJST = startOfDayInTimeZone(new Date(), timeZone_tokyo)
   const endOfTodayJST = addDays(startOfTodayJST, 1)
 
@@ -72,18 +72,18 @@ export const getPostsOfToday = async (): Promise<Posts[]> => {
 
 export const getPost_= (uuid: string) => unstable_cache(getPost, ['post', uuid], { tags: [`post/${uuid}`]})(uuid)
 export const getPost = async (uuid: string): Promise<Posts | undefined> => {
+  console.log('[_functions/getPost] uuid:', uuid)
   const supabase = createClient()
-  // <Database>({ cookies })
   const { data, error } = await supabase
   .from('posts')
   .select()//, profiles!inner(name)')
   .eq('uuid', uuid)
   .single()
-  // .is('deleted_at', null);
-  if (error) {
+  const post = data as Posts
+  if (error && post?.deleted_at != null) {
     console.error('Error fetching posts:', error);
     return undefined //[];
   }
   console.log("[getPost]", uuid, data);
-  return data //as Posts //as Posts[]
+  return post //as Posts //as Posts[]
 }

@@ -1,17 +1,5 @@
-// "use client"
-// import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-// import { cookies } from 'next/headers'
-// import { Database } from '@/lib/schema'
-// import { Session, useSupabaseClient } from '@supabase/auth-helpers-react'
-// import { useEffect, useState } from 'react'
-// import type { Database } from '@/lib/database.types'
-// import PostItem from '@/app/_components/PostItem'
-import { Posts, getPost, getPosts } from '@/app/_functions/post'
-// import PostView from '@/app/_components/PostView'
-import { unstable_cache } from 'next/cache'
 import PostViewWithUuid from '@/app/_components/PostViewWithUuid'
-
-const getPosts_ = () => unstable_cache(getPosts, ['posts'], { tags: ['posts']})()
+import { getPosts_ } from '@/app/_functions/post'
 export async function generateStaticParams() {
     const posts = await getPosts_()
 	// const response = await fetch('http://localhost:3000/api/posts')
@@ -31,5 +19,4 @@ const Schedule = async ({params: {id: uuid}} : {params: {id: string}}) => {
     </div>
     )
 }
-
 export default Schedule
