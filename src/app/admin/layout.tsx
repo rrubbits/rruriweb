@@ -17,9 +17,9 @@ export default function Layout({
   children,
 }: Readonly<{children: React.ReactNode, auth: React.ReactNode}>) {
   return (
-    <div>
+    <div className="flex flex-col items-center">
         <SupabaseListener />
-        <div className="flex flex-col items-stretch bg-black">
+        <div className="flex flex-col items-stretch max-w-4xl">
           {auth}
           {children}
         </div>

@@ -11,4 +11,4 @@ const PostViewWithUuid = async ({ uuid }: PostViewWithUuidProps) => {
     <PostView post={post}/>
   )
 }
-  export default PostViewWithUuid
+export default PostViewWithUuid

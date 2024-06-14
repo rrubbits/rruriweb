@@ -9,7 +9,7 @@ interface PostButtonProps {
 }
 
 const PostNavigateButton = ({ post, children }: PostButtonProps) => {
-  console.log("PostNavigateButton", post)
+  // console.log("PostNavigateButton", post)
     return (
       <Link href={`/schedule/post/${post.uuid}`} scroll={false}>
         <p className="box-border pl-4 mt-2 line-clamp-2 cursor-pointer">

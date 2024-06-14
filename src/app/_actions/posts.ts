@@ -1,11 +1,12 @@
 'use server'
 // import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 // import { cookies } from 'next/headers'
-import { getUser } from '@/app/_functions/auth'
+import { getUser, getUserProfile } from '@/app/_functions/auth'
 import type { Database } from '@/lib/database.types'
 import { startOfDayInTimeZone, timeZone_tokyo } from '@/utils/date'
 import { addDays } from 'date-fns'
-import { createClient } from '@/utils/createClient'
+import { createClient, createServerClient } from '@/utils/supabase/server'
+import { revalidatePath, revalidateTag } from 'next/cache'
 // import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 type ProfileType = Database['public']['Tables']['profiles']['Row']
 export type Posts = Database['public']['Tables']['posts']['Row'] & { profiles : { name: string, id: string } }
@@ -24,108 +25,137 @@ export type UpdatePostDto = Partial<CreatePostDto>
 export const addPost = async (dto: CreatePostDto): Promise<Posts | null> => {
     // console.
     console.log('[addPost]', dto);
-    const supabase = createClient()
-    let user = await getUser()
-    let userId = user?.id
-    let {data: profile} = await supabase.from('profiles')
-    .select('*')
-    .eq('id', userId!)
-    .single()
-    console.log("[addPost] profile", profile, userId, user)
+    const supabase = createServerClient()
+    // let user = await getUser()
+    // let userId = user?.id
+    // let {data: profile} = await supabase.from('profiles')
+    // .select('*')
+    // .eq('id', userId!)
+    // .single()
+    let profile = await getUserProfile()
+    // console.log("[addPost] profile", profile, userId, user)
+    if(!profile) {
+      console.error("[addPost] !profile")
+      return null
+    }
     const { data, error } = await supabase
       .from('posts')
-      .insert({...dto, profile_id: profile?.id})
-      .single();
-  
+      .insert({...dto, profile_id: profile!.id})
+      .select()
+      .single()
     if (error) {
       console.error('Error adding post:', error);
       return null;
     }
-  
-    return data as Posts;
+    let post = data as Posts
+    revalidateTag('posts')
+    revalidateTag('post/' + post.uuid)
+    return post
 };
   
-export const deletePost = async (postId: string): Promise<boolean> => {
-    const supabase = createClient()
-    const { error } = await supabase
-      .from('posts')
-      .delete()
-      .eq('id', postId);
-  
-    if (error) {
-      console.error('Error deleting post:', error);
-      return false;
-    }
-  
-    return true;
-  };
-  
-// export const updatePost = async (postId: string, updatePostDto: UpdatePostDto): Promise<Posts | null> => {
-//   // const { title, content, dateStr, openingTime, startingTime } = updatePostDto;
-//   const supabase = createServerComponentClient()
-//   let user = await getUser()
-//   let userId = user?.id
-//   const { data: post, error: fetchError } = await supabase
-//     .from('posts')
-//     .select('user_id')
-//     .eq('id', postId)
-//     .single();
-
-//   if (fetchError) {
-//     console.error('Error fetching post:', fetchError);
-//     return null;
-//   }
-
-//   if (post?.user_id !== userId) {
-//     console.error('Error: User is not authorized to edit this post');
-//     return null;
-//   }
-
-//   const { data, error } = await supabase
-//     .from('posts')
-//     .update( updatePostDto )
-//     // { title: updatePostDto.title, content: updatePostDto.content, timestamp_begin: updatePostDto.timestamp_begin, timestamp_end: updatePostDto.timestamp_end, updated_at: new Date().toISOString() })
-//     .eq('id', postId)
-//     .single();
-
-//   if (error) {
-//     console.error('Error editing post:', error);
-//     return null;
-//   }
-
-//   return data as Posts;
-// };
-export const trashPost = async (postId: string): Promise<Posts | null> => {
-  // const { title, content, dateStr, openingTime, startingTime } = updatePostDto;
-  const supabase = createClient()
-  let user = await getUser()
-  let userId = user?.id
-  const { data: post, error: fetchError } = await supabase
+export const deletePost = async (uuid: string): Promise<boolean> => {
+  const supabase = createServerClient()
+  let profile = await getUserProfile()
+  if(!profile) {
+    console.error('[deletePost] !profile')
+    return false
+  }
+  const { data: post, error: postError } = await supabase
     .from('posts')
-    .select('user_id')
-    .eq('id', postId)
+    .select() //'profile_id')
+    .eq('uuid', uuid)
     .single();
+  if (postError) {
+    console.error('[deletePost] Error fetching post:', postError);
+    return false;
+  }
+  if(!post || post.profile_id != profile.id) {
+    console.error('[deletePost] !post || profile_id != userId', postError);
+    return false;
+  }
+  const { error } = await supabase
+    .from('posts')
+    .delete()
+    .eq('uuid', uuid);
+  if (error) {
+    console.error('[deletePost] Error deleting post:', error);
+    return false;
+  }
+  revalidateTag('posts')
+  revalidateTag('post/' + uuid)
+  return true; 
+};
 
-  if (fetchError) {
-    console.error('Error fetching post:', fetchError);
+export const updatePost = async (uuid: string, updatePostDto: UpdatePostDto): Promise<Posts | null> => {
+  // const { title, content, dateStr, openingTime, startingTime } = updatePostDto;
+  const supabase = createServerClient()
+  let profile = await getUserProfile()
+  if(!profile) {
+    console.error('[updatePost] !profile')
+    return null
+  }
+  const { data: post, error: postError } = await supabase
+    .from('posts')
+    .select() //'profile_id')
+    .eq('uuid', uuid)
+    .single();
+  if (postError) {
+    console.error('[updatePost] Error fetching post:', postError);
     return null;
   }
-
-  if (post?.user_id !== userId) {
-    console.error('Error: User is not authorized to edit this post');
+  if(!post || post.profile_id != profile.id) {
+    console.error('[updatePost] !post || profile_id != userId');
     return null;
   }
-
   const { data, error } = await supabase
     .from('posts')
-    .update({ deleted_at: new Date().toISOString() })
-    .eq('id', postId)
+    .update( updatePostDto )
+    // { title: updatePostDto.title, content: updatePostDto.content, timestamp_begin: updatePostDto.timestamp_begin, timestamp_end: updatePostDto.timestamp_end, updated_at: new Date().toISOString() })
+    .eq('id', uuid)
+    .select()
     .single();
 
   if (error) {
-    console.error('Error editing post:', error);
+    console.error('[updatePost] Error editing post:', error);
     return null;
   }
+  revalidateTag('posts')
+  revalidateTag('post/' + uuid)
+  return data as Posts;
+};
+export const trashPost = async (uuid: string): Promise<Posts | null> => {
+  const supabase = createServerClient()
+  let profile = await getUserProfile()
+  if(!profile) {
+    console.error('[updatePost] !profile')
+    return null
+  }
+  const { data: post, error: postError } = await supabase
+    .from('posts')
+    .select() //'profile_id')
+    .eq('uuid', uuid)
+    .single();
+  if (postError) {
+    console.error('[updatePost] Error fetching post:', postError);
+    return null;
+  }
+  if(!post || post.profile_id != profile.id) {
+    console.error('[updatePost] !post || profile_id != userId');
+    return null;
+  }
+  const { data, error } = await supabase
+    .from('posts')
+    .update({ deleted_at: new Date().toISOString() })
+    // { title: updatePostDto.title, content: updatePostDto.content, timestamp_begin: updatePostDto.timestamp_begin, timestamp_end: updatePostDto.timestamp_end, updated_at: new Date().toISOString() })
+    .eq('id', uuid)
+    .select()
+    .single();
 
+  if (error) {
+    console.error('[updatePost] Error editing post:', error);
+    return null;
+  }
+  revalidateTag('posts')
+  revalidateTag('post/' + uuid)
   return data as Posts;
 };

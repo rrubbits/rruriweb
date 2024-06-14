@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+// import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createBrowserClient } from '@/utils/supabase/browser'
 import { useRouter } from 'next/navigation'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -16,11 +17,10 @@ const schema = z.object({
   email: z.string().email({ message: 'メールアドレスの形式ではありません。' }),
   password: z.string().min(6, { message: '6文字以上入力する必要があります。' }),
 })
-
 // ログインページ
 const Login = () => {
   const router = useRouter()
-  const supabase = createClientComponentClient<Database>()
+  const supabase = createBrowserClient()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 

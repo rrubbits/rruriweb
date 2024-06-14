@@ -9,20 +9,20 @@ type ProfileType = Database['public']['Tables']['profiles']['Row']
 
 // ナビゲーション
 const Navigation = ({
-  session,
+  // session,
   profile,
 }: {
-  session: Session | null
+  // session: Session | null
   profile: ProfileType | null
 }) => {
   // const { setUser } = useStore()
-  let user = {
-    id: session ? session.user.id : '',
-    email: session ? session.user.email! : '',
-    name: session && profile ? profile.name : '',
-    introduce: session && profile ? profile.introduce : '',
-    avatar_url: session && profile ? profile.avatar_url : '',
-  }
+  // let userProfile = {
+  //   id: profile ? profile.id : '',
+  //   email: profile ? profile.email : '',
+  //   name: profile ? profile.name : '',
+  //   introduce: profile ? profile.introduce : '',
+  //   avatar_url: profile ? profile.avatar_url : '',
+  // }
   // 状態管理にユーザー情報を保存
   // useEffect(() => {
     // setUser({
@@ -40,7 +40,7 @@ const Navigation = ({
       FullStackChannel
     </Link> */}
     <div className="text-sm font-bold">
-       {session ? (
+       {profile ? (
             <div className="flex items-center space-x-5 px-8">
               <Link href="/settings/profile">
                 <div className='text-white'>PROFILE</div>

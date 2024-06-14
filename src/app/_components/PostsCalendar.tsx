@@ -93,6 +93,9 @@ const PostsCalendar = ({events, options={showCalendar:true}, children}: PostsCal
             endAccessor="end"
             // defaultDate={new Date(2024, 3, 1)}
             formats={formats}
+            onDrillDown={(date, view) => {
+              // setShowPast(getTenseOfDate(date, new Date(), 'day') === 'past')
+            }}
             eventPropGetter={({ type }) => {
               switch (type) {
                 case 'past':

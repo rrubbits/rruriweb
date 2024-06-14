@@ -16,7 +16,10 @@ export async function GET(request) {
     const { data, error } = await supabase
       .from('posts')
       .select(`*, profiles(name)`)
-      //   title,
+      .is('deleted_at', null)  
+      .order('timestamp_begin', { ascending: true })
+      // .gt('timestamp_begin', currentDate)
+            //   title,
       //   timestamp_begin,
       //   ticket_url,
       //   location,
@@ -24,9 +27,7 @@ export async function GET(request) {
       //   uuid,
       //   profiles(name)
       // `)
-      .is('deleted_at', null)  
-      // .gt('timestamp_begin', currentDate)
-      .order('timestamp_begin', { ascending: true })
+
       // .range(0, 10)    
     if (error) {
       console.error('Error fetching posts:', error);

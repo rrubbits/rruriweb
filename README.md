@@ -45,7 +45,6 @@ npx supabase gen types typescript --project-id fkqlrkbkiejnfrnbpcds > ./lib/data
 
 
 # TODO
-
 1. [Schedule] Post編集、削除 
 2. [Schedule] Calendar
 3. [Schedule] 予約状態　Reservation (Post.reservations, Profile.reservations)
@@ -76,3 +75,15 @@ SSGとキャッシュのrevalidation
 revalidate: DBをアップデートする度に、日付が変わるたびに。
 
 
+# DOCS
+* React.js
+* Next.js 14
+  https://nextjs.org/docs
+  実践Next.js —— App Routerで進化するWebアプリ開発 (エンジニア選書) 
+  - Dynamic Routes
+  - Cache
+  - SSG/ISR
+* Supabase
+* Supabase Auth
+  https://supabase.com/docs/guides/auth/server-side/nextjs?queryGroups=router&router=app
+  https://supabase.com/docs/guides/auth/managing-user-data

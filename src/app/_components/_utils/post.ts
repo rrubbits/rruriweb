@@ -30,15 +30,15 @@ export function groupPostsByDate(posts: Posts[], groupKeys: PostsCalendarSection
   [key: string]: Posts[]
 } {
   // console.log('[groupPostsByDate] posts', posts)
-  console.log('[groupPostsByDate] groupKeys', groupKeys)
+  // console.log('[groupPostsByDate] groupKeys', groupKeys)
   const groups: { [key: string]: Posts[] } = groupKeys.reduce<{[key: string]: Posts[]}>((acc, key) => {
     acc[key] = [];
     return acc;
   }, {});
-  console.log('[groupPostsByDate] groups', groups)
+  // console.log('[groupPostsByDate] groups', groups)
   const currentDate = new Date()
   posts.forEach(post => {
-    console.log("[groupPostsByDate] post.uuid", post.uuid)
+    // console.log("[groupPostsByDate] post.uuid", post.uuid)
     const postDate = new Date(post.timestamp_begin!) // timestamp_begin을 사용하여 포스트 날짜 가져오기
     let groupKey = getTenseOfDate(postDate, currentDate, 'day')
     if(groupKeys.includes(groupKey)) {

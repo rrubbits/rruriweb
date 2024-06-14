@@ -12,7 +12,7 @@ interface PostItemProps {
 
 const PostItem = ({ post, deletePost }: PostItemProps) => {
     // let me = post.me
-    console.log("[PostItem] - ", post)
+    // console.log("[PostItem] - ", post)
     // if(me) {
         return (
             <li className="flex flex-col p-2 items-stretch">

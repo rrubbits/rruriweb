@@ -16,7 +16,7 @@ import { unstable_cache } from 'next/cache'
 // type Posts = Database['public']['Tables']['posts']['Row']
 const getPosts_ = () => unstable_cache(getPosts, ['posts'], { tags: ['posts']})()
 export async function generateStaticParams() {
-    const posts: Posts[] = await getPosts_()
+    const posts = await getPosts_()
 	// const response = await fetch('http://localhost:3000/api/posts')
 	// const posts: Posts[] = await response.json()
 	return posts.map((post) => ({

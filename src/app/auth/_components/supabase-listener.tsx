@@ -1,47 +1,52 @@
 import 'server-only'
 // 'use server'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
+// import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+// import { cookies } from 'next/headers'
 import Navigation from './Navigation'
-import type { Database } from '@/lib/database.types'
+// import type { Database } from '@/lib/database.types'
+import { getUser, getUserProfile } from '@/app/_functions/auth'
+import { createServerClient } from '@/utils/supabase/server'
+
 // type ProfileType = Database['public']['Tables']['profiles']['Row']
 
 // 認証状態の監視
 const SupabaseListener = async () => {
-  const supabase = createServerComponentClient<Database>({ cookies })
-
+  const supabase = createServerClient()
   // セッションの取得
-  const {
-    data: { session }, error
-  } = await supabase.auth.getSession()
-  console.log("[SuperbaseListener] ", session, error)
-
+  const user = await getUser()
+  let profile = await getUserProfile()
+  // const {
+  //   data: { session }, error
+  // } = await supabase.auth.getSession()
+  // console.log("[SuperbaseListener] ", session, error)
+  if(!user) {
+    console.error("[SuperbaseListener]!user")
+  }
   // プロフィールの取得
-  let profile = null
-  if (session) {
+  if(user) {
     const { data: currentProfile, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', session.user.id)
-      .single()
+    .from('profiles')
+    .select('*')
+    .eq('id', user.id)
+    .single()
     console.log("[Profiles] ", currentProfile, error)
     profile = currentProfile
 
-    // メールアドレスを変更した場合、プロフィールを更新
-    if (currentProfile && currentProfile.email !== session.user.email) {
+  // メールアドレスを変更した場合、プロフィールを更新
+    if (currentProfile && currentProfile.email !== user.email) {
       // メールアドレスを更新
       const { data: updatedProfile } = await supabase
         .from('profiles')
-        .update({ email: session.user.email })
-        .match({ id: session.user.id })
+        .update({ email: user.email })
+        .match({ id: user.id })
         .select('*')
         .single()
 
       profile = updatedProfile
     }
   }
-
-  return <Navigation session={session} profile={profile} />
+  // session={session} 
+  return <Navigation profile={profile} />
 }
 
 export default SupabaseListener

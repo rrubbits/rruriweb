@@ -3,7 +3,7 @@ import 'server-only'
 import type { Database } from '@/lib/database.types'
 import { startOfDayInTimeZone, timeZone_tokyo } from '@/utils/date'
 import { addDays } from 'date-fns'
-import { createClient } from '@/utils/createClient'
+import { createClient } from '@/utils/supabase/server'
 // import { cache } from 'react'
 import { unstable_cache } from 'next/cache'
 type ProfileType = Database['public']['Tables']['profiles']['Row']
@@ -43,7 +43,11 @@ export const getPosts = async (): Promise<Posts[]> => {
   return data as Posts[]
   // return []
 }
-// export const getPosts = unstable_cache(_getPosts, ['posts'], { tags: ['posts'] })
+
+export const keyPath_getPosts_ = ['posts']
+export const tags_getPosts_ = ['posts']
+export const getPosts_ = unstable_cache(getPosts, ['posts'], { tags: ['posts'] })
+
 export const getPostsOfToday = async (): Promise<Posts[]> => {
   const supabase = createClient()
   // const {

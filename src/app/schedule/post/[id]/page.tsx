@@ -9,6 +9,7 @@
 import { Posts, getPost, getPosts } from '@/app/_functions/post'
 import PostView from '@/app/_components/PostView'
 import { unstable_cache } from 'next/cache'
+import PostViewWithUuid from '@/app/_components/PostViewWithUuid'
 
 const getPosts_ = () => unstable_cache(getPosts, ['posts'], { tags: ['posts']})()
 export async function generateStaticParams() {
@@ -22,14 +23,13 @@ export async function generateStaticParams() {
 
 const Schedule = async (props : {params: {id: string}}) => {
     const params = props.params
-    console.log("<Schedule/post/[id]>", params, props)
-    let post = await getPost(params.id!)
-    console.log("<Schedule/post/[id]>", post)
-
+    // console.log("<Schedule/post/[id]>", params, props)
+    // let post = await getPost(params.id!)
+    // console.log("<Schedule/post/[id]>", post)
     return (
     <div className="flex flex-col w-full items-center">
         <div className="w-[80%] max-w-[500px]">
-            <PostView post={post}/>
+            <PostViewWithUuid uuid={params.id}/>
         </div>
     </div>
     )

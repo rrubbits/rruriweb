@@ -1,6 +1,5 @@
 
-export const runtime = 'edge'
-
+// export const runtime = 'edge'
 import OpenAI from 'openai'
 import { addPost } from '../../../_functions/auth'
 import { isoStringFrom } from '../../_utils/date';
