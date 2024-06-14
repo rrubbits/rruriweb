@@ -7,7 +7,7 @@
 // import type { Database } from '@/lib/database.types'
 // import PostItem from '@/app/_components/PostItem'
 import { Posts, getPost, getPosts } from '@/app/_functions/post'
-import PostView from '@/app/_components/PostView'
+// import PostView from '@/app/_components/PostView'
 import { unstable_cache } from 'next/cache'
 import PostViewWithUuid from '@/app/_components/PostViewWithUuid'
 
@@ -21,15 +21,12 @@ export async function generateStaticParams() {
     }))
 }
 
-const Schedule = async (props : {params: {id: string}}) => {
-    const params = props.params
-    // console.log("<Schedule/post/[id]>", params, props)
-    // let post = await getPost(params.id!)
-    // console.log("<Schedule/post/[id]>", post)
+const Schedule = async ({params: {id: uuid}} : {params: {id: string}}) => {
+    // const params = props.params
     return (
     <div className="flex flex-col w-full items-center">
         <div className="w-[80%] max-w-[500px]">
-            <PostViewWithUuid uuid={params.id}/>
+            <PostViewWithUuid uuid={uuid}/>
         </div>
     </div>
     )

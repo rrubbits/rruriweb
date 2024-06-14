@@ -83,6 +83,7 @@ revalidate: DBをアップデートする度に、日付が変わるたびに。
   - Dynamic Routes
   - Cache
   - SSG/ISR
+  https://medium.com/rigby-software-house/optimizing-next-js-data-refetch-a-guide-to-revalidation-with-medusa-js-2906d8ae2c8f
 * Supabase
 * Supabase Auth
   https://supabase.com/docs/guides/auth/server-side/nextjs?queryGroups=router&router=app

@@ -24,10 +24,10 @@ export function startOfDayInTimeZone(date: Date, timeZone: string) {
 //     return addDays(startOfDayInTimeZone(date, timeZone), 1)
 // }
   
-export function localedDateStringFrom(isoString: string, {timeZone}: { timeZone: string } = { timeZone: timeZone_tokyo }): string {
+export function localedDateStringFrom(isoString: string, {timeZone, includesYear}: { timeZone: string, includesYear?: boolean } = { timeZone: timeZone_tokyo, includesYear: false }): string {
     // const date = parseISO(ISOString);
     try {
-        const formattedDate = formatInTimeZone(isoString, timeZone, "M/d (EEE)", { locale: ja });
+        const formattedDate = formatInTimeZone(isoString, timeZone, includesYear ? "yyyy/M/d (EEE)" : "M/d (EEE)", { locale: ja });
         return formattedDate;
     }
     catch (error) {

@@ -20,22 +20,14 @@ export interface CreatePostDto {
   }
 export type UpdatePostDto = Partial<CreatePostDto>
 
-
+export const getPosts_ = () => unstable_cache(getPosts, ['posts'], { tags: ['posts', 'post'] })()
 export const getPosts = async (): Promise<Posts[]> => {
   const supabase = createClient()
-  // const supabase = createServerComponentClient<Database>({cookies})
   const { data, error } = await supabase
     .from('posts')
     .select(`*, profiles(name)`)
     .is('deleted_at', null)  
     .order('timestamp_begin', { ascending: true })
-
-  // .is('deleted_at', null);
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
-  const user = session?.user;
-
   if (error) {
     console.error('Error fetching posts:', error);
     return [];
@@ -44,17 +36,10 @@ export const getPosts = async (): Promise<Posts[]> => {
   // return []
 }
 
-export const keyPath_getPosts_ = ['posts']
-export const tags_getPosts_ = ['posts']
-export const getPosts_ = unstable_cache(getPosts, ['posts'], { tags: ['posts'] })
-
+export const getPostsOfToday_ = () => unstable_cache(getPostsOfToday, ['posts', 'today'], { tags: ['posts', 'post', 'today']})()
 export const getPostsOfToday = async (): Promise<Posts[]> => {
-  const supabase = createClient()
-  // const {
-  //   data: { session },
-  // } = await supabase.auth.getSession()
-  // const user = session?.user;
-  
+  const supabase = createClient()  
+
   const startOfTodayJST = startOfDayInTimeZone(new Date(), timeZone_tokyo)
   const endOfTodayJST = addDays(startOfTodayJST, 1)
 
@@ -72,25 +57,11 @@ export const getPostsOfToday = async (): Promise<Posts[]> => {
       *,
       profiles(name, id)
     `)
-    // title,
-    // timestamp_begin,
-    // ticket_url,
-    // location,
-    // content,
-    // uuid,
   if (error) {
     console.error('Error fetching posts:', error);
     throw Error(error.message)
   }
   if(data) {
-    // console.log("[GET] ", user)
-    // let posts = data.map((post) => {
-    //   // console.log("[post] ", post, post.profiles?.name, user?.id === post.user_id)
-    //   return {
-    //   ...post,
-    //   // username: post.profiles?.name,
-    //   // me: user?.id === post.profiles?.id
-    // }})
     return data as Posts[]
   }
   if (error) {
@@ -98,7 +69,8 @@ export const getPostsOfToday = async (): Promise<Posts[]> => {
   }
   return []
 }
-// export const getPostsOfToday = unstable_cache(_getPostsOfToday, ['posts', 'today'], { tags: ['posts/today'] })
+
+export const getPost_= (uuid: string) => unstable_cache(getPost, ['post', uuid], { tags: [`post/${uuid}`]})(uuid)
 export const getPost = async (uuid: string): Promise<Posts | undefined> => {
   const supabase = createClient()
   // <Database>({ cookies })
@@ -115,8 +87,3 @@ export const getPost = async (uuid: string): Promise<Posts | undefined> => {
   console.log("[getPost]", uuid, data);
   return data //as Posts //as Posts[]
 }
-
-// export const getPost = async (uuid: string) => {
-//   return unstable_cache(_getPost, ['post'], { tags: ['posts'] })
-// }
- 

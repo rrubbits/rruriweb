@@ -1,3 +1,4 @@
+import 'server-only'
 import {ChevronDownIcon, ChevronRightIcon} from '@heroicons/react/24/solid'
 // import { Posts, deletePost, trashPost } from '../_actions/post'
 import { Posts } from '../_functions/post'
@@ -11,15 +12,24 @@ import { useEffect, useState } from 'react'
 import 'react-big-calendar/lib/css/react-big-calendar.css'; 
 import PostsSection from './PostsSection'
 import CollapsablePostsSection from './PostsCollapsableSection'
-
-const sectionInfos: {[key:string]:{title: string, collapsable?: boolean, styles?:{root?:string, h2?:string}}} = {
+import { isoStringFromDate, localedDateStringFrom, timeZone_tokyo } from '@/utils/date'
+interface SectionInfo {
+  title: string
+  subtitle?: string | (() => string)
+  collapsable?: boolean
+  styles?:{root?:string, h2?:string}
+  numberOfItems?: number
+}
+const sectionInfos: {[key:string]: SectionInfo} = {
   past: {
     title:  '過去のイベント',
+    subtitle: () => { return '~' + localedDateStringFrom(isoStringFromDate(new Date()), { timeZone: timeZone_tokyo, includesYear: true }) },
     collapsable: true,
     styles: {root:"opacity-50", h2:"text-blue-600"}
   },
   today: {
     title: '今日のイベント',
+    subtitle: () => { return localedDateStringFrom(isoStringFromDate(new Date()), { timeZone: timeZone_tokyo, includesYear: true }) },
     collapsable: false,
     // styles: {root:"", h2:"text-blue-600"}
   },
@@ -43,10 +53,13 @@ const GroupedPostList = ({groupedPosts}: GroupedPostListProps) => {
         <div className="overflow-hidden">
           {
               Object.keys(groupedPosts).map((key) => {
+                let _subtitle = sectionInfos[key].subtitle
+                let subtitle = typeof(_subtitle) == 'function' ? _subtitle() : _subtitle
                 return sectionInfos[key].collapsable ?
                   <CollapsablePostsSection key={key} 
                     // collapsable={sectionInfos[key].collapsable}
                     title={sectionInfos[key].title}
+                    subtitle={subtitle}
                     styles={sectionInfos[key].styles}
                     numberOfItems={groupedPosts[key].length}>
                     <ul className="">
@@ -58,6 +71,7 @@ const GroupedPostList = ({groupedPosts}: GroupedPostListProps) => {
                   : <PostsSection key={key} 
                   // collapsable={sectionInfos[key].collapsable}
                   title={sectionInfos[key].title}
+                  subtitle={subtitle}
                   styles={sectionInfos[key].styles}
                   numberOfItems={groupedPosts[key].length}>
                     <ul className="">

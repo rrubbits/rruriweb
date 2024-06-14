@@ -48,7 +48,7 @@ export const addPost = async (dto: CreatePostDto): Promise<Posts | null> => {
       return null;
     }
     let post = data as Posts
-    revalidateTag('posts')
+    revalidateTag('post')
     revalidateTag('post/' + post.uuid)
     return post
 };
@@ -81,7 +81,7 @@ export const deletePost = async (uuid: string): Promise<boolean> => {
     console.error('[deletePost] Error deleting post:', error);
     return false;
   }
-  revalidateTag('posts')
+  revalidateTag('post')
   revalidateTag('post/' + uuid)
   return true; 
 };
@@ -119,7 +119,7 @@ export const updatePost = async (uuid: string, updatePostDto: UpdatePostDto): Pr
     console.error('[updatePost] Error editing post:', error);
     return null;
   }
-  revalidateTag('posts')
+  revalidateTag('post')
   revalidateTag('post/' + uuid)
   return data as Posts;
 };
@@ -155,7 +155,7 @@ export const trashPost = async (uuid: string): Promise<Posts | null> => {
     console.error('[updatePost] Error editing post:', error);
     return null;
   }
-  revalidateTag('posts')
+  revalidateTag('post')
   revalidateTag('post/' + uuid)
   return data as Posts;
 };

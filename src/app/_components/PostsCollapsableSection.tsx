@@ -10,13 +10,14 @@ interface CollapsablePostsSectionProps {
   // posts: Posts[] | undefined
   numberOfItems: number | undefined
   title: string
+  subtitle?: string | (() => string)
   // onClickItem: ((uuid: string) => void) | undefined
   // onClick: () => void
   styles?: {root?:string, h2?:string}
   children?: React.ReactNode; // children prop 추가
 }
 
-const CollapsablePostsSection = ({key, numberOfItems, title, styles, children}: CollapsablePostsSectionProps) => {
+const CollapsablePostsSection = ({key, numberOfItems, title, subtitle, styles, children}: CollapsablePostsSectionProps) => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(true)
   return <div key={key} className={"bg-slate-200 rounded-md my-2 " + styles?.root}>
   {/* // "bg-slate-200 rounded-md my-2 opacity-50" */}
